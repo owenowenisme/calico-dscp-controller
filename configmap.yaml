@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-dscp-config
+  namespace: kube-system
+data:
+  k8s_dscp_config.yaml: |
+    container_image: "localhost:5000/dscp-worker:latest"
+    queue_dscp_map:
+      queue-0: [ 0,1,2,3,4,5,6,7 ]
+      queue-1: [ 8,9,10,11,12,13,14,15 ]
+      queue-2: [ 16,17,18,19,20,21,22,23 ]
+      queue-3: [ 24,25,26,27,28,29,30,31 ]
+      queue-4: [ 32,33,34,35,36,37,38,39 ]
+      queue-5: [ 40,41,42,43,44,45,46,47 ]
+      queue-6: [ 48,49,50,51,52,53,54,55 ]
+      queue-7: [ 56,57,58,59,60,61,62,63 ]
+    namespace_dscp_map:
+      - name: default
+        dscp: "8"

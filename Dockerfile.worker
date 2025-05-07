@@ -1,0 +1,12 @@
+FROM alpine:latest
+
+WORKDIR /
+
+# Install required dependencies including iptables
+RUN apk add --no-cache \
+    ca-certificates \
+    libc6-compat \
+    iptables \
+    ip6tables
+
+ENTRYPOINT ["sleep", "infinity"]

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dscp-controller
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dscp-controller
+  template:
+    metadata:
+      labels:
+        app: dscp-controller
+    spec:
+      serviceAccountName: dscp-controller
+      containers:
+        - name: dscp-controller
+          image: localhost:5000/dscp-controller:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
