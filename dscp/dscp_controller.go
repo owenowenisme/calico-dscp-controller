@@ -23,7 +23,6 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
-	"k8s.io/apimachinery/pkg/types"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/wait"
 
@@ -57,7 +56,7 @@ type DscpConfig struct {
 	NamespaceDscpMap []NamespaceDscp     `yaml:"namespace_dscp_map"`
 }
 
-// Controller is the controller implementation for Foo resources
+// Controller is the controller implementation for DSCP resources
 type Controller struct {
 	// kubeclientset is a standard kubernetes clientset
 	kubeclientset kubernetes.Interface
@@ -72,17 +71,15 @@ type Controller struct {
 	podsSynced cache.InformerSynced
 
 	// workqueue is a rate limited work queue. This is used to queue work to be
-	// processed instead of performing it as soon as a change happens. This
-	// means we can ensure we only process a fixed amount of resources at a
-	// time, and makes it easy to ensure we are never processing the same item
-	// simultaneously in two different workers.
+	// processed instead of performing it as soon as a change happens.
 	workqueue workqueue.RateLimitingInterface
+
 	// recorder is an event recorder for recording Event resources to the
 	// Kubernetes API.
 	recorder record.EventRecorder
 }
 
-// NewController returns a new sample controller
+// NewDscpController returns a new DSCP controller
 func NewDscpController(
 	kubeclientset kubernetes.Interface,
 	configMapInformer corev1informer.ConfigMapInformer,
@@ -109,6 +106,7 @@ func NewDscpController(
 
 	klog.Info("Setting up event handlers")
 
+	// Add event handlers
 	configMapInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
 		AddFunc: controller.enqueueConfigMap,
 		UpdateFunc: func(oldObj, newObj interface{}) {
@@ -116,18 +114,11 @@ func NewDscpController(
 			newCm := newObj.(*corev1.ConfigMap)
 
 			if reflect.DeepEqual(oldCm.Data, newCm.Data) {
-				return // If the ConfigMap content does not change, the enqueue function will not be entered.
+				return // If the ConfigMap content does not change, don't enqueue
 			}
 			controller.enqueueConfigMap(newObj)
 		},
-		DeleteFunc: func(obj interface{}) {
-			tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
-			if ok {
-				controller.enqueueConfigMap(tombstone.Obj)
-				return
-			}
-			controller.enqueueConfigMap(obj)
-		},
+		DeleteFunc: controller.enqueueConfigMap,
 	})
 
 	daemonSetInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
@@ -135,47 +126,46 @@ func NewDscpController(
 		UpdateFunc: func(oldObj, newObj interface{}) {
 			controller.enqueueDaemonSet(newObj)
 		},
-		DeleteFunc: func(obj interface{}) {
-			tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
-			if ok {
-				controller.enqueueDaemonSet(tombstone.Obj)
-				return
-			}
-			controller.enqueueDaemonSet(obj)
-		},
+		DeleteFunc: controller.enqueueDaemonSet,
 	})
 
 	podInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: controller.handlePodUpdate,
-		DeleteFunc: controller.handlePodDelete,
+		AddFunc: controller.handlePodChange,
+		UpdateFunc: func(oldObj, newObj interface{}) {
+			oldPod := oldObj.(*corev1.Pod)
+			newPod := newObj.(*corev1.Pod)
+			if oldPod.Status.PodIP == "" && newPod.Status.PodIP != "" {
+				controller.handlePodChange(newObj)
+			}
+		},
+		DeleteFunc: controller.handlePodChange,
 	})
 
 	return controller
 }
 
+// Start initiates the controller
 func (c *Controller) Start(ctx context.Context) error {
 	return c.Run(1, ctx.Done())
 }
 
 // Run will set up the event handlers for types we are interested in, as well
-// as syncing informer caches and starting workers. It will block until stopCh
-// is closed, at which point it will shutdown the workqueue and wait for
-// workers to finish processing their current work items.
+// as syncing informer caches and starting workers.
 func (c *Controller) Run(workers int, stopCh <-chan struct{}) error {
 	defer utilruntime.HandleCrash()
 	defer c.workqueue.ShutDown()
 
 	// Start the informer factories to begin populating the informer caches
-	klog.Info("Starting DSCP client-go controller")
+	klog.Info("Starting DSCP controller")
 
 	// Wait for the caches to be synced before starting workers
 	klog.Info("Waiting for informer caches to sync")
-	if ok := cache.WaitForCacheSync(stopCh, c.configMapsSynced, c.daemonSetsSynced); !ok {
-		return fmt.Errorf("Failed to wait for caches to sync")
+	if ok := cache.WaitForCacheSync(stopCh, c.configMapsSynced, c.daemonSetsSynced, c.podsSynced); !ok {
+		return fmt.Errorf("failed to wait for caches to sync")
 	}
 
 	klog.Info("Starting workers")
-	// Launch two workers to process Foo resources
+	// Launch workers to process resources
 	for i := 0; i < workers; i++ {
 		go wait.Until(c.runWorker, time.Second, stopCh)
 	}
@@ -188,18 +178,16 @@ func (c *Controller) Run(workers int, stopCh <-chan struct{}) error {
 }
 
 // runWorker is a long-running function that will continually call the
-// processNextWorkItem function in order to read and process a message on the
-// workqueue.
+// processNextWorkItem function to read and process a message on the workqueue.
 func (c *Controller) runWorker() {
 	for c.processNextWorkItem() {
 	}
 }
 
 // processNextWorkItem will read a single work item off the workqueue and
-// attempt to process it, by calling the syncHandler.
+// attempt to process it, by calling the reconcile.
 func (c *Controller) processNextWorkItem() bool {
 	obj, shutdown := c.workqueue.Get()
-
 	if shutdown {
 		return false
 	}
@@ -207,39 +195,34 @@ func (c *Controller) processNextWorkItem() bool {
 	// We wrap this block in a func so we can defer c.workqueue.Done.
 	err := func(obj interface{}) error {
 		// We call Done here so the workqueue knows we have finished
-		// processing this item. We also must remember to call Forget if we
-		// do not want this work item being re-queued. For example, we do
-		// not call Forget if a transient error occurs, instead the item is
-		// put back on the workqueue and attempted again after a back-off
-		// period.
+		// processing this item.
 		defer c.workqueue.Done(obj)
+
 		var key string
 		var ok bool
+
 		// We expect strings to come off the workqueue. These are of the
-		// form namespace/name. We do this as the delayed nature of the
-		// workqueue means the items in the informer cache may actually be
-		// more up to date that when the item was initially put onto the
-		// workqueue.
+		// form namespace/name.
 		if key, ok = obj.(string); !ok {
-			// As the item in the workqueue is actually invalid, we call
+			// As the item in the workqueue is invalid, we call
 			// Forget here else we'd go into a loop of attempting to
 			// process a work item that is invalid.
 			c.workqueue.Forget(obj)
 			utilruntime.HandleError(fmt.Errorf("expected string in workqueue but got %#v", obj))
 			return nil
 		}
-		// Run the syncHandler, passing it the namespace/name string of the
-		// Foo resource to be synced.
-		if err := c.syncHandler(key); err != nil {
+
+		// Run the reconcile, passing it the namespace/name string of the resource
+		if err := c.reconcile(key); err != nil {
 			// Put the item back on the workqueue to handle any transient errors.
 			c.workqueue.AddRateLimited(key)
-			return fmt.Errorf("error syncing '%s': %s, requeuing", key, err.Error())
-		} else {
-			// Finally, if no error occurs we Forget this item so it does not
-			// get queued again until another change happens.
-			c.workqueue.Forget(obj)
+			return fmt.Errorf("error reconciling '%s': %s, requeuing", key, err.Error())
 		}
-		klog.Infof("Successfully synced '%s'", key)
+
+		// Finally, if no error occurs we Forget this item so it does not
+		// get queued again until another change happens.
+		c.workqueue.Forget(obj)
+		klog.Infof("Successfully reconciled '%s'", key)
 		return nil
 	}(obj)
 
@@ -251,183 +234,250 @@ func (c *Controller) processNextWorkItem() bool {
 	return true
 }
 
-// syncHandler compares the actual state with the desired, and attempts to
-// converge the two. It then updates the Status block of the Foo resource
-// with the current status of the resource.
-func (c *Controller) syncHandler(key string) error {
+// reconcile is the core reconciliation loop that:
+// 1. Determines the current state
+// 2. Determines the desired state
+// 3. Reconciles the two
+func (c *Controller) reconcile(key string) error {
+	klog.V(4).Infof("Reconciling key: %s", key)
+
+	// Parse the namespace and name from the key
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
 		return fmt.Errorf("invalid resource key: %s", key)
 	}
 
-	// Get DSCP ConfigMap
+	// Only process the DSCP ConfigMap
+	if namespace != configNamespace || name != configName {
+		// This could be a DaemonSet update event, check if we need to reconcile the ConfigMap
+		if namespace == configNamespace && strings.HasPrefix(name, daemonSetName) {
+			// Get the ConfigMap to reconcile
+			_, err := c.configMapLister.ConfigMaps(configNamespace).Get(configName)
+			if err != nil {
+				if errors.IsNotFound(err) {
+					// ConfigMap doesn't exist, handle DaemonSet deletion
+					return c.reconcileDeletion(configNamespace)
+				}
+				return err
+			}
+			// Use the ConfigMap key for reconciliation
+			return c.reconcile(configNamespace + "/" + configName)
+		}
+		// Not our resource to reconcile
+		return nil
+	}
+
+	// Get the DSCP ConfigMap
 	configMap, err := c.configMapLister.ConfigMaps(namespace).Get(name)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			// DSCP ConfigMap is deleted, and DaemonSet needs to be deleted
-			klog.Infof("ConfigMap %s deleted", key)
-			err := c.kubeclientset.AppsV1().DaemonSets(namespace).Delete(context.TODO(), daemonSetName, metav1.DeleteOptions{})
-			if err != nil {
-				if errors.IsNotFound(err) {
-					klog.Infof("DaemonSet %s already deleted", daemonSetName)
-					return nil
-				}
-				return fmt.Errorf("Failed to delete DaemonSet %s: %v", daemonSetName, err)
-			}
+			// ConfigMap is deleted - clean up resources
+			return c.reconcileDeletion(namespace)
+		}
+		return err
+	}
 
-			klog.Infof("DaemonSet %s deleted due to ConfigMap %s removal", daemonSetName, key)
+	// Parse the DSCP ConfigMap
+	dscpConfig, err := c.parseDscpConfig(configMap)
+	if err != nil {
+		return fmt.Errorf("failed to parse DSCP config: %v", err)
+	}
+
+	// Reconcile the DaemonSet
+	if err := c.reconcileDaemonSet(namespace, dscpConfig); err != nil {
+		return fmt.Errorf("failed to reconcile DaemonSet: %v", err)
+	}
+
+	// Reconcile iptables for DSCP
+	if err := c.reconcileIptables(dscpConfig); err != nil {
+		return fmt.Errorf("failed to reconcile iptables: %v", err)
+	}
+
+	return nil
+}
+
+// reconcileDeletion handles cleanup when the ConfigMap is deleted
+func (c *Controller) reconcileDeletion(namespace string) error {
+	klog.Infof("Reconciling deletion in namespace %s", namespace)
+
+	// Check if the DaemonSet exists
+	_, err := c.daemonSetLister.DaemonSets(namespace).Get(daemonSetName)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			// DaemonSet is already gone, nothing to do
+			klog.Infof("DaemonSet %s already deleted", daemonSetName)
 			return nil
 		}
 		return err
 	}
 
-	// Parsing DSCP ConfigMap
-	var dscpConfig DscpConfig
-	yamlData := configMap.Data[configMapYamlData]
-	err = yaml.Unmarshal([]byte(yamlData), &dscpConfig)
+	// Delete the DaemonSet if it exists
+	err = c.kubeclientset.AppsV1().DaemonSets(namespace).Delete(
+		context.TODO(),
+		daemonSetName,
+		metav1.DeleteOptions{},
+	)
 	if err != nil {
-		return fmt.Errorf("Unmarshal DSCP config error: %v", err)
+		return fmt.Errorf("failed to delete DaemonSet %s: %v", daemonSetName, err)
 	}
 
-	// DSCP ConfigMap exists and is ready to create or update the corresponding DaemonSet
+	klog.Infof("Successfully deleted DaemonSet %s", daemonSetName)
+	return nil
+}
+
+// parseDscpConfig parses the DSCP ConfigMap into a DscpConfig struct
+func (c *Controller) parseDscpConfig(configMap *corev1.ConfigMap) (DscpConfig, error) {
+	var dscpConfig DscpConfig
+
+	yamlData, exists := configMap.Data[configMapYamlData]
+	if !exists {
+		return dscpConfig, fmt.Errorf("ConfigMap %s/%s does not contain key %s",
+			configMap.Namespace, configMap.Name, configMapYamlData)
+	}
+
+	err := yaml.Unmarshal([]byte(yamlData), &dscpConfig)
+	if err != nil {
+		return dscpConfig, fmt.Errorf("failed to unmarshal DSCP config: %v", err)
+	}
+
+	return dscpConfig, nil
+}
+
+// reconcileDaemonSet ensures the DaemonSet matches the desired state
+func (c *Controller) reconcileDaemonSet(namespace string, dscpConfig DscpConfig) error {
+	// Check if DaemonSet exists
+	existingDS, err := c.daemonSetLister.DaemonSets(namespace).Get(daemonSetName)
+	// Generate the desired DaemonSet
 	timestamp := time.Now().Format(time.RFC3339)
-	_, err = c.daemonSetLister.DaemonSets(namespace).Get(daemonSetName)
+	desiredDS := c.generateDaemonSet(dscpConfig, timestamp)
+
 	if err != nil {
 		if errors.IsNotFound(err) {
-			// DaemonSet has not been created yet, create it
-			newDS := newDaemonSetFromConfigMap(c.kubeclientset, dscpConfig, daemonSetName, timestamp)
-			_, err := c.kubeclientset.AppsV1().DaemonSets(namespace).Create(context.TODO(), newDS, metav1.CreateOptions{})
+			// Create the DaemonSet if it doesn't exist
+			_, err := c.kubeclientset.AppsV1().DaemonSets(namespace).Create(
+				context.TODO(),
+				desiredDS,
+				metav1.CreateOptions{},
+			)
 			if err != nil {
-				return fmt.Errorf("Failed to create DaemonSet %s: %v", daemonSetName, err)
+				return fmt.Errorf("failed to create DaemonSet: %v", err)
 			}
-			klog.Infof("Created DaemonSet %s for ConfigMap %s", daemonSetName, key)
+			klog.Infof("Created DaemonSet %s in namespace %s", daemonSetName, namespace)
 			return nil
 		}
-		return fmt.Errorf("Failed to get DaemonSet %s: %v", daemonSetName, err)
+		return err
 	}
 
-	// DaemonSet exists, triggering a rolling update to apply the latest content of DSCP ConfigMap
-	patch := []byte(fmt.Sprintf(`{"metadata":{"annotations":{"create-time":"%s"}}}`, timestamp))
-	_, err = c.kubeclientset.AppsV1().DaemonSets(namespace).Patch(context.TODO(), daemonSetName, types.StrategicMergePatchType, patch, metav1.PatchOptions{})
-	if err != nil {
-		return fmt.Errorf("Failed to patch DaemonSet %s: %v", name, err)
-	}
-	klog.Infof("Patched DaemonSet %s to trigger rolling update due to ConfigMap change", name)
+	// Check if update is needed
+	if c.daemonSetNeedsUpdate(existingDS, desiredDS) {
+		// Use existing DS as base and update necessary fields
+		updatedDS := existingDS.DeepCopy()
+		updatedDS.Spec.Template.Spec.Containers = desiredDS.Spec.Template.Spec.Containers
+		updatedDS.Annotations = desiredDS.Annotations
 
-	// Update iptables for DSCP Pod in DaemonSet
-	dscpIpMap := convertDscpIpMapFromConfigMap(c.kubeclientset, dscpConfig)
-	executeCommandInPod(c.kubeclientset, generateIptablesDscpCommand(dscpIpMap, true))
+		_, err := c.kubeclientset.AppsV1().DaemonSets(namespace).Update(
+			context.TODO(),
+			updatedDS,
+			metav1.UpdateOptions{},
+		)
+		if err != nil {
+			return fmt.Errorf("failed to update DaemonSet: %v", err)
+		}
+		klog.Infof("Updated DaemonSet %s in namespace %s", daemonSetName, namespace)
+	}
 
 	return nil
 }
 
-func convertDscpIpMapFromConfigMap(clientset kubernetes.Interface, dscpConfig DscpConfig) map[string][]string {
+// daemonSetNeedsUpdate determines if the DaemonSet needs an update
+func (c *Controller) daemonSetNeedsUpdate(existing, desired *appsv1.DaemonSet) bool {
+	// Compare container image and args
+	if len(existing.Spec.Template.Spec.Containers) != len(desired.Spec.Template.Spec.Containers) {
+		return true
+	}
+
+	existingContainer := existing.Spec.Template.Spec.Containers[0]
+	desiredContainer := desired.Spec.Template.Spec.Containers[0]
+
+	if existingContainer.Image != desiredContainer.Image {
+		return true
+	}
+
+	if !reflect.DeepEqual(existingContainer.Args, desiredContainer.Args) {
+		return true
+	}
+
+	return false
+}
+
+// reconcileIptables ensures the iptables rules are up to date
+func (c *Controller) reconcileIptables(dscpConfig DscpConfig) error {
+	dscpIpMap := c.buildDscpIpMap(dscpConfig)
+	commands := generateIptablesDscpCommand(dscpIpMap, true)
+
+	err := c.executeCommandInPods(commands)
+	if err != nil {
+		return fmt.Errorf("failed to execute iptables commands: %v", err)
+	}
+
+	return nil
+}
+
+// buildDscpIpMap creates a map of DSCP values to IPs from config
+func (c *Controller) buildDscpIpMap(dscpConfig DscpConfig) map[string][]string {
 	dscpIpMap := make(map[string][]string)
+
 	for _, ns := range dscpConfig.NamespaceDscpMap {
-		klog.V(4).Infof("Namespace: %s, DSCP: %s", ns.Name, ns.DSCP)
+		klog.V(4).Infof("Processing namespace: %s, DSCP: %s", ns.Name, ns.DSCP)
 		dscpIpMap[ns.DSCP] = make([]string, 0)
-		pods, err := clientset.CoreV1().Pods(ns.Name).List(context.TODO(), metav1.ListOptions{})
+
+		// Get pods in this namespace
+		podList, err := c.podLister.Pods(ns.Name).List(labels.Everything())
 		if err != nil {
-			utilruntime.HandleError(fmt.Errorf("Error fetching Pods in namespace %s: %s", ns.Name, err.Error()))
+			utilruntime.HandleError(fmt.Errorf("error listing pods in namespace %s: %v", ns.Name, err))
 			continue
 		}
 
-		// List the IP of each Pod
-		for _, pod := range pods.Items {
-			// Check if the Pod has an IP address
+		// Add pod IPs to the map
+		for _, pod := range podList {
 			if !pod.Spec.HostNetwork && pod.Status.PodIP != "" {
 				dscpIpMap[ns.DSCP] = append(dscpIpMap[ns.DSCP], pod.Status.PodIP+"/32")
-				klog.V(4).Infof("Pod Name: %s, IP: %s\n", pod.Name, pod.Status.PodIP)
+				klog.V(4).Infof("Added pod %s/%s with IP %s", pod.Namespace, pod.Name, pod.Status.PodIP)
 			}
 		}
 	}
+
 	return dscpIpMap
 }
 
-func generateIptablesDscpCommand(dscpIpMap map[string][]string, updateFlag bool) []string {
-	commands := make([]string, 0)
-	commands = append(commands, "iptables -t mangle -F")
-	for dscp, podIps := range dscpIpMap {
-		for _, ip := range podIps {
-			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -d %s -j MARK --set-mark %s", ip, dscp)
-			commands = append(commands, markPacket)
-		}
-		setDscp := fmt.Sprintf("iptables -t mangle -A POSTROUTING -m mark --mark %s -j DSCP --set-dscp %s", dscp, dscp)
-		commands = append(commands, setDscp)
-	}
+// generateDaemonSet creates a DaemonSet object from the DSCP config
+func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) *appsv1.DaemonSet {
+	dscpIpMap := c.buildDscpIpMap(dscpConfig)
 
-	// "sleep infinity" is added to prevent DaemonSet from continuously re-establishing Pods
-	// because the Pod status changes to "complete" after the Pod is created and iptables commands are executed.
-	if !updateFlag {
-		commands = append(commands, "sleep infinity")
-		fullCommandStr := strings.Join(commands, " && ")
-		return []string{fullCommandStr}
-	} else {
-		fullCommandStr := strings.Join(commands, " && ")
-		return []string{"sh", "-c", fullCommandStr}
-	}
-}
-
-func executeCommandInPod(clientset kubernetes.Interface, command []string) {
-	restConfig, err := rest.InClusterConfig()
-	if err != nil {
-		utilruntime.HandleError(err)
-		return
-	}
-
-	setSelector := labels.SelectorFromSet(labels.Set(map[string]string{"app": appName, "daemonset-owner": daemonSetName}))
-	pods, err := clientset.CoreV1().Pods(configNamespace).List(
+	// Get controller deployment for owner reference
+	deployment, err := c.kubeclientset.AppsV1().Deployments("default").Get(
 		context.TODO(),
-		metav1.ListOptions{
-			LabelSelector: setSelector.String(),
-		},
+		"dscp-controller",
+		metav1.GetOptions{},
 	)
 
-	if err != nil {
-		utilruntime.HandleError(err)
-		return
+	var ownerRefs []metav1.OwnerReference
+	if err == nil {
+		// Only add owner reference if controller deployment exists
+		ownerRefs = []metav1.OwnerReference{
+			{
+				APIVersion:         "apps/v1",
+				Kind:               "Deployment",
+				Name:               "dscp-controller",
+				UID:                deployment.GetUID(),
+				Controller:         pointer.Bool(true),
+				BlockOwnerDeletion: pointer.Bool(true),
+			},
+		}
+	} else {
+		klog.Warningf("Failed to get controller deployment for owner reference: %v", err)
 	}
 
-	// All Pods under the DSCP DaemonSet need to perform exec
-	for _, pod := range pods.Items {
-		req := clientset.CoreV1().RESTClient().Post().
-			Resource("pods").
-			Name(pod.Name).
-			Namespace(pod.Namespace).
-			SubResource("exec")
-		req.VersionedParams(&corev1.PodExecOptions{
-			Command: command,
-			Stderr:  true,
-		}, scheme.ParameterCodec)
-
-		// Create an executor
-		exec, err := remotecommand.NewSPDYExecutor(restConfig, "POST", req.URL())
-		if err != nil {
-			utilruntime.HandleError(fmt.Errorf("Error creating SPDY executor: %v", err))
-			return
-		}
-
-		// Execute command
-		var stderr bytes.Buffer
-		err = exec.Stream(remotecommand.StreamOptions{
-			Stderr: &stderr,
-		})
-		if err != nil {
-			utilruntime.HandleError(fmt.Errorf("Error executing command: %v", err))
-		}
-		if stderr.Len() != 0 {
-			utilruntime.HandleError(fmt.Errorf(string(stderr.Bytes())))
-		}
-	}
-}
-
-func newDaemonSetFromConfigMap(clientset kubernetes.Interface, dscpConfig DscpConfig, daemonSetName string, timestamp string) *appsv1.DaemonSet {
-	dscpIpMap := convertDscpIpMapFromConfigMap(clientset, dscpConfig)
-	deployment, err := clientset.AppsV1().Deployments("default").Get(context.TODO(), "dscp-controller", metav1.GetOptions{})
-	if err != nil {
-		_ = fmt.Errorf("failed to get controller deployment: %v", err)
-	}
-	klog.Infof("Deployment: %v", deployment)
 	return &appsv1.DaemonSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      daemonSetName,
@@ -439,16 +489,7 @@ func newDaemonSetFromConfigMap(clientset kubernetes.Interface, dscpConfig DscpCo
 			Annotations: map[string]string{
 				"create-time": timestamp,
 			},
-			OwnerReferences: []metav1.OwnerReference{
-				{
-					APIVersion:         "apps/v1",
-					Kind:               "Deployment",
-					Name:               "dscp-controller",   // name of your controller deployment
-					UID:                deployment.GetUID(), // you need to pass this from your deployment
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
-				},
-			},
+			OwnerReferences: ownerRefs,
 		},
 		Spec: appsv1.DaemonSetSpec{
 			Selector: &metav1.LabelSelector{
@@ -483,135 +524,179 @@ func newDaemonSetFromConfigMap(clientset kubernetes.Interface, dscpConfig DscpCo
 	}
 }
 
+// generateIptablesDscpCommand creates the iptables commands for DSCP marking
+func generateIptablesDscpCommand(dscpIpMap map[string][]string, updateFlag bool) []string {
+	commands := make([]string, 0)
+	commands = append(commands, "iptables -t mangle -F")
+
+	for dscp, podIps := range dscpIpMap {
+		for _, ip := range podIps {
+			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -d %s -j MARK --set-mark %s", ip, dscp)
+			commands = append(commands, markPacket)
+		}
+		setDscp := fmt.Sprintf("iptables -t mangle -A POSTROUTING -m mark --mark %s -j DSCP --set-dscp %s", dscp, dscp)
+		commands = append(commands, setDscp)
+	}
+
+	if !updateFlag {
+		// For initial DaemonSet pod command
+		commands = append(commands, "sleep infinity")
+		fullCommandStr := strings.Join(commands, " && ")
+		return []string{fullCommandStr}
+	} else {
+		// For updates via exec
+		fullCommandStr := strings.Join(commands, " && ")
+		return []string{"sh", "-c", fullCommandStr}
+	}
+}
+
+// executeCommandInPods executes commands in all DSCP pods
+func (c *Controller) executeCommandInPods(command []string) error {
+	restConfig, err := rest.InClusterConfig()
+	if err != nil {
+		return fmt.Errorf("failed to get in-cluster config: %v", err)
+	}
+
+	selector := labels.SelectorFromSet(labels.Set(map[string]string{
+		"app":             appName,
+		"daemonset-owner": daemonSetName,
+	}))
+
+	pods, err := c.podLister.Pods(configNamespace).List(selector)
+	if err != nil {
+		return fmt.Errorf("failed to list DSCP pods: %v", err)
+	}
+
+	if len(pods) == 0 {
+		klog.Warningf("No DSCP pods found to execute command")
+		return nil
+	}
+
+	// Execute command in each pod
+	for _, pod := range pods {
+		req := c.kubeclientset.CoreV1().RESTClient().Post().
+			Resource("pods").
+			Name(pod.Name).
+			Namespace(pod.Namespace).
+			SubResource("exec")
+
+		req.VersionedParams(&corev1.PodExecOptions{
+			Command: command,
+			Stdout:  true,
+			Stderr:  true,
+		}, scheme.ParameterCodec)
+
+		// Create executor
+		exec, err := remotecommand.NewSPDYExecutor(restConfig, "POST", req.URL())
+		if err != nil {
+			return fmt.Errorf("failed to create SPDY executor for pod %s: %v", pod.Name, err)
+		}
+
+		// Execute command
+		var stdout, stderr bytes.Buffer
+		err = exec.Stream(remotecommand.StreamOptions{
+			Stdout: &stdout,
+			Stderr: &stderr,
+		})
+
+		if err != nil {
+			return fmt.Errorf("failed to execute command in pod %s: %v, stderr: %s",
+				pod.Name, err, stderr.String())
+		}
+
+		if stderr.Len() > 0 {
+			klog.Warningf("Command stderr in pod %s: %s", pod.Name, stderr.String())
+		}
+
+		klog.V(4).Infof("Command executed successfully in pod %s: %s", pod.Name, stdout.String())
+	}
+
+	return nil
+}
+
+// handlePodChange handles pod changes (add/update/delete)
+func (c *Controller) handlePodChange(obj interface{}) {
+	var pod *corev1.Pod
+	var isDelete bool
+
+	switch p := obj.(type) {
+	case *corev1.Pod:
+		pod = p
+	case cache.DeletedFinalStateUnknown:
+		var ok bool
+		pod, ok = p.Obj.(*corev1.Pod)
+		if !ok {
+			utilruntime.HandleError(fmt.Errorf("error decoding pod tombstone, invalid type"))
+			return
+		}
+		isDelete = true
+	default:
+		utilruntime.HandleError(fmt.Errorf("unexpected object type: %T", obj))
+		return
+	}
+
+	// Skip DSCP pods
+	if isDscpPod(pod) {
+		klog.V(4).Infof("Skipping DSCP pod event: %s/%s", pod.Namespace, pod.Name)
+		return
+	}
+
+	// If it's a delete event or the pod has an IP address, trigger reconciliation
+	if isDelete || (!pod.Spec.HostNetwork && pod.Status.PodIP != "") {
+		key := configNamespace + "/" + configName
+		c.workqueue.Add(key)
+	}
+}
+
+// isDscpPod returns true if the pod is part of the DSCP DaemonSet
+func isDscpPod(pod *corev1.Pod) bool {
+	appVal, appOk := pod.Labels["app"]
+	ownerVal, ownerOk := pod.Labels["daemonset-owner"]
+
+	return appOk && ownerOk && appVal == appName && ownerVal == daemonSetName
+}
+
+// enqueueConfigMap adds a ConfigMap to the work queue if it's the DSCP ConfigMap
 func (c *Controller) enqueueConfigMap(obj interface{}) {
-	key, err := cache.MetaNamespaceKeyFunc(obj)
+	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		utilruntime.HandleError(err)
 		return
 	}
-	// Unspecified ConfigMap (namespace/name) will not enter syncHandler for logical processing
-	configMapKey := configNamespace + "/" + configName
-	if key != configMapKey {
-		klog.V(4).Infof("Non-DSCP ConfigMap: %s", key)
+
+	// Only enqueue the DSCP ConfigMap
+	dscpConfigMapKey := configNamespace + "/" + configName
+	if key != dscpConfigMapKey {
+		klog.V(4).Infof("Ignoring non-DSCP ConfigMap: %s", key)
 		return
 	}
 	c.workqueue.Add(key)
 }
 
+// enqueueDaemonSet adds a DaemonSet to the work queue if it's the DSCP DaemonSet
 func (c *Controller) enqueueDaemonSet(obj interface{}) {
-	daemonSet, ok := obj.(*appsv1.DaemonSet)
-	if !ok {
-		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
-		if !ok {
-			utilruntime.HandleError(fmt.Errorf("error decoding daemon set, invalid type"))
-			return
-		}
-		daemonSet, ok = tombstone.Obj.(*appsv1.DaemonSet)
-		if !ok {
-			utilruntime.HandleError(fmt.Errorf("error decoding daemon set tombstone, invalid type"))
-			return
-		}
-		klog.V(4).Infof("Recovered deleted daemon set '%s' from tombstone", daemonSet.GetName())
-	}
+	var key string
+	var err error
 
-	// Confirm this is a DSCP DaemonSet
-	if daemonSet.Name != "k8s-dscp" || daemonSet.Namespace != configNamespace {
-		return
-	}
-
-	// Check if the DSCP ConfigMap still exists
-	_, err := c.configMapLister.ConfigMaps(configNamespace).Get(configName)
+	key, err = cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
-		if errors.IsNotFound(err) {
-			klog.Infof("ConfigMap still not found, skipping recreate of DaemonSet")
-			return
-		}
-		utilruntime.HandleError(fmt.Errorf("Failed to get ConfigMap: %v", err))
+		utilruntime.HandleError(err)
 		return
 	}
 
-	// The DSCP ConfigMap still exists, add it to the workqueue.
+	// Extract namespace and name
+	namespace, name, err := cache.SplitMetaNamespaceKey(key)
+	if err != nil {
+		utilruntime.HandleError(err)
+		return
+	}
+
+	// Only process our DaemonSet
+	if namespace != configNamespace || name != daemonSetName {
+		return
+	}
+
+	// Trigger reconciliation of the ConfigMap
 	configMapKey := configNamespace + "/" + configName
 	c.workqueue.Add(configMapKey)
-}
-
-func (c *Controller) handlePodUpdate(oldObj, newObj interface{}) {
-	oldPod := oldObj.(*corev1.Pod)
-	newPod := newObj.(*corev1.Pod)
-
-	// Determine whether the Pod has changed from having no IP to having an IP
-	if oldPod.Status.PodIP == "" && newPod.Status.PodIP != "" {
-		execSinglePodIptables(c, newPod, false)
-	}
-}
-
-func (c *Controller) handlePodDelete(obj interface{}) {
-	pod, ok := obj.(*corev1.Pod)
-	if !ok {
-		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
-		if !ok {
-			utilruntime.HandleError(fmt.Errorf("error decoding pod, invalid type"))
-			return
-		}
-		pod, ok = tombstone.Obj.(*corev1.Pod)
-		if !ok {
-			utilruntime.HandleError(fmt.Errorf("error decoding pod tombstone, invalid type"))
-			return
-		}
-		klog.V(4).Infof("Recovered deleted pod '%s' from tombstone", pod.GetName())
-	}
-
-	execSinglePodIptables(c, pod, true)
-}
-
-func execSinglePodIptables(c *Controller, pod *corev1.Pod, isPodDelete bool) {
-	val, ok := pod.Labels["app"]
-	checkAppLabel := ok && val == appName
-
-	val, ok = pod.Labels["daemonset-owner"]
-	checkOwnerLabel := ok && val == daemonSetName
-
-	// If it is a DSCP Pod event, skip it.
-	isDscpPod := checkAppLabel && checkOwnerLabel
-	if isDscpPod {
-		klog.V(4).Infof("Skip DSCP pod event: %s/%s", pod.Namespace, pod.Name)
-		return
-	}
-
-	// Get DSCP ConfigMap
-	configMap, err := c.configMapLister.ConfigMaps(configNamespace).Get(configName)
-	if err != nil {
-		utilruntime.HandleError(fmt.Errorf("Failed to get ConfigMap: %v", err))
-		return
-	}
-
-	// Parsing DSCP ConfigMap
-	var dscpConfig DscpConfig
-	yamlData := configMap.Data[configMapYamlData]
-	err = yaml.Unmarshal([]byte(yamlData), &dscpConfig)
-	if err != nil {
-		utilruntime.HandleError(fmt.Errorf("execSinglePodIptables function error: %v", err))
-		return
-	}
-
-	param := "-A"
-	describe := "Add new pod IP in iptables"
-	if isPodDelete {
-		param = "-D"
-		describe = "Delete pod IP in iptables"
-	}
-
-	for _, ns := range dscpConfig.NamespaceDscpMap {
-		if ns.Name == pod.Namespace {
-			// Check if the Pod has an IP address
-			if !pod.Spec.HostNetwork && pod.Status.PodIP != "" {
-				iptablesPodIp := pod.Status.PodIP + "/32"
-				command := fmt.Sprintf("iptables -t mangle %s POSTROUTING -d %s -j MARK --set-mark %s", param, iptablesPodIp, ns.DSCP)
-				klog.Infof("%s: %s/%s (%s)", describe, pod.Namespace, pod.Name, pod.Status.PodIP)
-				executeCommandInPod(c.kubeclientset, strings.Fields(command))
-				return
-			}
-			return
-		}
-	}
 }
