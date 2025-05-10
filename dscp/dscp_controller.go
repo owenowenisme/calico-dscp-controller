@@ -5,8 +5,6 @@ import (
 	"context"
 	"fmt"
 	"gopkg.in/yaml.v3"
-	"k8s.io/client-go/rest"
-	"k8s.io/utils/pointer"
 	"reflect"
 	"strings"
 	"time"
@@ -240,7 +238,6 @@ func (c *Controller) processNextWorkItem() bool {
 // 3. Reconciles the two
 func (c *Controller) reconcile(key string) error {
 	klog.V(4).Infof("Reconciling key: %s", key)
-
 	// Parse the namespace and name from the key
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
@@ -288,8 +285,14 @@ func (c *Controller) reconcile(key string) error {
 		return fmt.Errorf("failed to reconcile DaemonSet: %v", err)
 	}
 
-	// Reconcile iptables for DSCP
-	if err := c.reconcileIptables(dscpConfig); err != nil {
+	// Reconcile iptables for
+	ds, err := c.daemonSetLister.DaemonSets(configNamespace).Get(daemonSetName)
+	if err != nil {
+		return fmt.Errorf("failed to get DaemonSet: %v", err)
+	}
+	labelSelector, err := metav1.LabelSelectorAsSelector(ds.Spec.Selector)
+	pods, err := c.podLister.Pods(ds.Namespace).List(labelSelector)
+	if err := c.reconcileIptables(dscpConfig, pods); err != nil {
 		return fmt.Errorf("failed to reconcile iptables: %v", err)
 	}
 
@@ -411,15 +414,21 @@ func (c *Controller) daemonSetNeedsUpdate(existing, desired *appsv1.DaemonSet) b
 }
 
 // reconcileIptables ensures the iptables rules are up to date
-func (c *Controller) reconcileIptables(dscpConfig DscpConfig) error {
+func (c *Controller) reconcileIptables(dscpConfig DscpConfig, pods []*corev1.Pod) error {
 	dscpIpMap := c.buildDscpIpMap(dscpConfig)
 	commands := generateIptablesDscpCommand(dscpIpMap, true)
+	for _, pod := range pods {
+		if !isPodReady(pod) {
+			klog.V(4).Infof("Skipping pod %s/%s as it's not ready", pod.Namespace, pod.Name)
+			continue
+		}
 
-	err := c.executeCommandInPods(commands)
-	if err != nil {
-		return fmt.Errorf("failed to execute iptables commands: %v", err)
+		err := c.executeCommandInPods(commands)
+
+		if err != nil {
+			return fmt.Errorf("failed to execute iptables commands: %v", err)
+		}
 	}
-
 	return nil
 }
 
@@ -454,30 +463,6 @@ func (c *Controller) buildDscpIpMap(dscpConfig DscpConfig) map[string][]string {
 func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) *appsv1.DaemonSet {
 	dscpIpMap := c.buildDscpIpMap(dscpConfig)
 
-	// Get controller deployment for owner reference
-	deployment, err := c.kubeclientset.AppsV1().Deployments("default").Get(
-		context.TODO(),
-		"dscp-controller",
-		metav1.GetOptions{},
-	)
-
-	var ownerRefs []metav1.OwnerReference
-	if err == nil {
-		// Only add owner reference if controller deployment exists
-		ownerRefs = []metav1.OwnerReference{
-			{
-				APIVersion:         "apps/v1",
-				Kind:               "Deployment",
-				Name:               "dscp-controller",
-				UID:                deployment.GetUID(),
-				Controller:         pointer.Bool(true),
-				BlockOwnerDeletion: pointer.Bool(true),
-			},
-		}
-	} else {
-		klog.Warningf("Failed to get controller deployment for owner reference: %v", err)
-	}
-
 	return &appsv1.DaemonSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      daemonSetName,
@@ -489,7 +474,6 @@ func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) 
 			Annotations: map[string]string{
 				"create-time": timestamp,
 			},
-			OwnerReferences: ownerRefs,
 		},
 		Spec: appsv1.DaemonSetSpec{
 			Selector: &metav1.LabelSelector{
@@ -552,9 +536,9 @@ func generateIptablesDscpCommand(dscpIpMap map[string][]string, updateFlag bool)
 
 // executeCommandInPods executes commands in all DSCP pods
 func (c *Controller) executeCommandInPods(command []string) error {
-	restConfig, err := rest.InClusterConfig()
+	config, err := getKubeConfig()
 	if err != nil {
-		return fmt.Errorf("failed to get in-cluster config: %v", err)
+		return fmt.Errorf("failed to get kubernetes config: %v", err)
 	}
 
 	selector := labels.SelectorFromSet(labels.Set(map[string]string{
@@ -587,12 +571,13 @@ func (c *Controller) executeCommandInPods(command []string) error {
 		}, scheme.ParameterCodec)
 
 		// Create executor
-		exec, err := remotecommand.NewSPDYExecutor(restConfig, "POST", req.URL())
+		exec, err := remotecommand.NewSPDYExecutor(config, "POST", req.URL())
 		if err != nil {
 			return fmt.Errorf("failed to create SPDY executor for pod %s: %v", pod.Name, err)
 		}
 
 		// Execute command
+		fmt.Printf("Executing command :%v", command)
 		var stdout, stderr bytes.Buffer
 		err = exec.Stream(remotecommand.StreamOptions{
 			Stdout: &stdout,
@@ -608,7 +593,7 @@ func (c *Controller) executeCommandInPods(command []string) error {
 			klog.Warningf("Command stderr in pod %s: %s", pod.Name, stderr.String())
 		}
 
-		klog.V(4).Infof("Command executed successfully in pod %s: %s", pod.Name, stdout.String())
+		klog.Infof("Command executed successfully in pod %s: %s", pod.Name, stdout.String())
 	}
 
 	return nil
