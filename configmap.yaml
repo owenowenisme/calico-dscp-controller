@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 data:
   k8s_dscp_config.yaml: |
-    container_image: "localhost:5000/dscp-worker:latest"
+    container_image: "${IMAGE_REGISTRY}/dscp-worker:latest"
     queue_dscp_map:
       queue-0: [ 0,1,2,3,4,5,6,7 ]
       queue-1: [ 8,9,10,11,12,13,14,15 ]
