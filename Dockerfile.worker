@@ -1,12 +1,13 @@
-FROM alpine:latest
+FROM debian:bookworm-slim
 
 WORKDIR /
 
 # Install required dependencies including iptables
-RUN apk add --no-cache \
-    ca-certificates \
-    libc6-compat \
-    iptables \
-    ip6tables
+# RUN apk add --no-cache iptables-legacy iptables-mod-extra\
+#  && ln -sf /usr/sbin/iptables-legacy /usr/sbin/iptables
+
+RUN apt update && apt -y install iptables
+
+RUN update-alternatives --set iptables /usr/sbin/iptables-legacy
 
 ENTRYPOINT ["sleep", "infinity"]

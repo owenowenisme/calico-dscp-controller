@@ -462,7 +462,6 @@ func (c *Controller) buildDscpIpMap(dscpConfig DscpConfig) map[string][]string {
 // generateDaemonSet creates a DaemonSet object from the DSCP config
 func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) *appsv1.DaemonSet {
 	dscpIpMap := c.buildDscpIpMap(dscpConfig)
-
 	return &appsv1.DaemonSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      daemonSetName,
@@ -487,6 +486,7 @@ func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) 
 					},
 				},
 				Spec: corev1.PodSpec{
+					HostNetwork: true,
 					Containers: []corev1.Container{
 						{
 							Name:            "dscp-container",
