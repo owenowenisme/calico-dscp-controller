@@ -513,12 +513,12 @@ func generateIptablesDscpCommand(dscpIpMap map[string][]string, updateFlag bool)
 	commands := make([]string, 0)
 	commands = append(commands, "iptables -t mangle -F")
 
-	for dscp, podIps := range dscpIpMap {
+	for dscp, podIps := range dscpIpMap {	
 		for _, ip := range podIps {
-			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -d %s -j MARK --set-mark %s", ip, dscp)
+			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -d %s -m comment --comment \"cali-dscp: %s\" -j MARK --set-mark %s", ip, dscp, dscp)
 			commands = append(commands, markPacket)
 		}
-		setDscp := fmt.Sprintf("iptables -t mangle -A POSTROUTING -m mark --mark %s -j DSCP --set-dscp %s", dscp, dscp)
+		setDscp := fmt.Sprintf("iptables -t mangle -A POSTROUTING -m mark --mark %s -m comment --comment \"cali-dscp: %s\" -j DSCP --set-dscp %s", dscp, dscp, dscp)
 		commands = append(commands, setDscp)
 	}
 
