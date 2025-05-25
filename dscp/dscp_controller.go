@@ -396,6 +396,7 @@ func (c *Controller) reconcileDaemonSet(namespace string, dscpConfig DscpConfig)
 func (c *Controller) daemonSetNeedsUpdate(existing, desired *appsv1.DaemonSet) bool {
 	// Compare container image and args
 	if len(existing.Spec.Template.Spec.Containers) != len(desired.Spec.Template.Spec.Containers) {
+		klog.Infof("DaemonSet needs update: container count mismatch %d != %d", len(existing.Spec.Template.Spec.Containers), len(desired.Spec.Template.Spec.Containers))
 		return true
 	}
 
@@ -403,10 +404,12 @@ func (c *Controller) daemonSetNeedsUpdate(existing, desired *appsv1.DaemonSet) b
 	desiredContainer := desired.Spec.Template.Spec.Containers[0]
 
 	if existingContainer.Image != desiredContainer.Image {
+		klog.Infof("DaemonSet needs update: container image mismatch %s != %s", existingContainer.Image, desiredContainer.Image)
 		return true
 	}
 
 	if !reflect.DeepEqual(existingContainer.Args, desiredContainer.Args) {
+		klog.Infof("DaemonSet needs update: container args mismatch")
 		return true
 	}
 
@@ -438,8 +441,9 @@ func (c *Controller) buildDscpIpMap(dscpConfig DscpConfig) map[string][]string {
 
 	for _, ns := range dscpConfig.NamespaceDscpMap {
 		klog.V(4).Infof("Processing namespace: %s, DSCP: %s", ns.Name, ns.DSCP)
-		dscpIpMap[ns.DSCP] = make([]string, 0)
-
+		if _, ok := dscpIpMap[ns.DSCP]; !ok {
+			dscpIpMap[ns.DSCP] = make([]string, 0)
+		}
 		// Get pods in this namespace
 		podList, err := c.podLister.Pods(ns.Name).List(labels.Everything())
 		if err != nil {
@@ -461,7 +465,6 @@ func (c *Controller) buildDscpIpMap(dscpConfig DscpConfig) map[string][]string {
 
 // generateDaemonSet creates a DaemonSet object from the DSCP config
 func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) *appsv1.DaemonSet {
-	dscpIpMap := c.buildDscpIpMap(dscpConfig)
 	return &appsv1.DaemonSet{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      daemonSetName,
@@ -491,8 +494,7 @@ func (c *Controller) generateDaemonSet(dscpConfig DscpConfig, timestamp string) 
 						{
 							Name:            "dscp-container",
 							Image:           dscpConfig.ContainerImage,
-							Command:         []string{"sh", "-c"},
-							Args:            generateIptablesDscpCommand(dscpIpMap, false),
+							Command:         []string{"sleep", "infinity"},
 							ImagePullPolicy: corev1.PullAlways,
 							SecurityContext: &corev1.SecurityContext{
 								Capabilities: &corev1.Capabilities{
@@ -515,7 +517,7 @@ func generateIptablesDscpCommand(dscpIpMap map[string][]string, updateFlag bool)
 
 	for dscp, podIps := range dscpIpMap {	
 		for _, ip := range podIps {
-			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -d %s -m comment --comment \"cali-dscp: %s\" -j MARK --set-mark %s", ip, dscp, dscp)
+			markPacket := fmt.Sprintf("iptables -t mangle -A POSTROUTING -s %s -m comment --comment \"cali-dscp: %s\" -j MARK --set-mark %s", ip, dscp, dscp)
 			commands = append(commands, markPacket)
 		}
 		setDscp := fmt.Sprintf("iptables -t mangle -A POSTROUTING -m mark --mark %s -m comment --comment \"cali-dscp: %s\" -j DSCP --set-dscp %s", dscp, dscp, dscp)
@@ -577,7 +579,6 @@ func (c *Controller) executeCommandInPods(command []string) error {
 		}
 
 		// Execute command
-		fmt.Printf("Executing command :%v", command)
 		var stdout, stderr bytes.Buffer
 		err = exec.Stream(remotecommand.StreamOptions{
 			Stdout: &stdout,
