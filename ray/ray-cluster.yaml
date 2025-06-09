@@ -1,0 +1,66 @@
+# For examples with more realistic resource configuration, see
+# ray-cluster.complete.large.yaml and
+# ray-cluster.autoscaler.large.yaml.
+apiVersion: ray.io/v1
+kind: RayCluster
+metadata:
+  name: raycluster-kuberay
+spec:
+  rayVersion: '2.41.0' # should match the Ray version in the image of the containers
+  # Ray head pod template
+  headGroupSpec:
+    rayStartParams:
+      # Setting "num-cpus: 0" to avoid any Ray actors or tasks being scheduled on the Ray head Pod.
+      num-cpus: "0"
+    #pod template
+    template:
+      spec:
+        nodeSelector:
+          kubernetes.io/hostname: k8smaster.example.net
+        tolerations:
+          - key: node-role.kubernetes.io/control-plane
+            operator: Exists
+            effect: NoSchedule
+          - key: node-role.kubernetes.io/master  # For older k8s versions
+            operator: Exists
+            effect: NoSchedule
+        containers:
+        - name: ray-head
+          image: rayproject/ray:2.41.0
+          command: ["pip3", "install", "torch", "torchvision"]
+          resources:
+            limits:
+              cpu: 1
+              memory: 2G
+            requests:
+              cpu: 1
+              memory: 2G
+          ports:
+          - containerPort: 6379
+            name: gcs-server
+          - containerPort: 8265 # Ray dashboard
+            name: dashboard
+          - containerPort: 10001
+            name: client
+  workerGroupSpecs:
+    # the pod replicas in this group typed worker
+    - replicas: 3
+      minReplicas: 1
+      maxReplicas: 5
+      # logical group name, for this called small-group, also can be functional
+      groupName: workergroup
+      rayStartParams: {}
+      #pod template
+      template:
+        spec:
+          containers:
+            - name: ray-worker # must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'
+              image: rayproject/ray:2.41.0
+              command: ["pip3", "install", "torch", "torchvision"]
+              resources:
+                limits:
+                  cpu: 5
+                  memory: 4G
+                requests:
+                  cpu: 5
+                  memory: 4G
