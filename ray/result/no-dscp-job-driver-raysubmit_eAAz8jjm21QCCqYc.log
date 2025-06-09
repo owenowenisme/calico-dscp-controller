@@ -1,0 +1,850 @@
+2025-06-09 00:21:12,654	INFO job_manager.py:530 -- Runtime env is setting up.
+2025-06-09 00:21:16,891	INFO worker.py:1514 -- Using address 192.168.192.71:6379 set in the environment variable RAY_ADDRESS
+2025-06-09 00:21:16,891	INFO worker.py:1654 -- Connecting to existing Ray cluster at address: 192.168.192.71:6379...
+2025-06-09 00:21:16,907	INFO worker.py:1832 -- Connected to Ray cluster. View the dashboard at [1m[32m192.168.192.71:8265 [39m[22m
+2025-06-09 00:21:16,958	INFO tune.py:253 -- Initializing Ray automatically. For cluster usage or custom Ray initialization, call `ray.init(...)` before `<FrameworkTrainer>(...)`.
+
+View detailed results here: /home/ray/ray_results/TorchTrainer_2025-06-09_00-21-16
+To visualize your results with TensorBoard, run: `tensorboard --logdir /tmp/ray/session_2025-06-08_23-52-35_831525_1/artifacts/2025-06-09_00-21-16/TorchTrainer_2025-06-09_00-21-16/driver_artifacts`
+
+Training started with configuration:
+╭─────────────────────────────────────────────────╮
+│ Training config                                 │
+├─────────────────────────────────────────────────┤
+│ train_loop_config/batch_size_per_worker      10 │
+│ train_loop_config/epochs                     10 │
+│ train_loop_config/lr                      0.001 │
+╰─────────────────────────────────────────────────╯
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Setting up process group for: env:// [rank=0, world_size=12]
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m Started distributed worker processes: 
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=869d2fb56a96854b430268f00d826fc06d3fb87f5faecbdfa6d75228, ip=192.168.127.122, pid=1943) world_rank=0, local_rank=0, node_rank=0
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=869d2fb56a96854b430268f00d826fc06d3fb87f5faecbdfa6d75228, ip=192.168.127.122, pid=1940) world_rank=1, local_rank=1, node_rank=0
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=869d2fb56a96854b430268f00d826fc06d3fb87f5faecbdfa6d75228, ip=192.168.127.122, pid=1939) world_rank=2, local_rank=2, node_rank=0
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=869d2fb56a96854b430268f00d826fc06d3fb87f5faecbdfa6d75228, ip=192.168.127.122, pid=1942) world_rank=3, local_rank=3, node_rank=0
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=869d2fb56a96854b430268f00d826fc06d3fb87f5faecbdfa6d75228, ip=192.168.127.122, pid=1941) world_rank=4, local_rank=4, node_rank=0
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=6fe0d783373049adb3047de6869f17b3845532caa1cc7dbc5c0095a1, ip=192.168.175.238, pid=1854) world_rank=5, local_rank=0, node_rank=1
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=6fe0d783373049adb3047de6869f17b3845532caa1cc7dbc5c0095a1, ip=192.168.175.238, pid=1856) world_rank=6, local_rank=1, node_rank=1
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=6fe0d783373049adb3047de6869f17b3845532caa1cc7dbc5c0095a1, ip=192.168.175.238, pid=1855) world_rank=7, local_rank=2, node_rank=1
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=312d148d4afb718ae46daca1cf64bbdad4586122364beeb28e4b7037, ip=192.168.116.173, pid=1864) world_rank=8, local_rank=0, node_rank=2
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=312d148d4afb718ae46daca1cf64bbdad4586122364beeb28e4b7037, ip=192.168.116.173, pid=1866) world_rank=9, local_rank=1, node_rank=2
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=312d148d4afb718ae46daca1cf64bbdad4586122364beeb28e4b7037, ip=192.168.116.173, pid=1865) world_rank=10, local_rank=2, node_rank=2
+[36m(TorchTrainer pid=1870, ip=192.168.127.122)[0m - (node_id=312d148d4afb718ae46daca1cf64bbdad4586122364beeb28e4b7037, ip=192.168.116.173, pid=1867) world_rank=11, local_rank=3, node_rank=2
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m   0%|          | 0.00/26.4M [00:00<?, ?B/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m   0%|          | 32.8k/26.4M [00:00<02:42, 162kB/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m   0%|          | 0.00/26.4M [00:00<?, ?B/s][32m [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)[0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m  85%|████████▌ | 22.5M/26.4M [00:05<00:00, 4.03MB/s][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m  92%|█████████▏| 24.2M/26.4M [00:05<00:00, 3.68MB/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m  95%|█████████▍| 25.1M/26.4M [00:05<00:00, 3.86MB/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m  92%|█████████▏| 24.3M/26.4M [00:05<00:00, 4.65MB/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m  97%|█████████▋| 25.7M/26.4M [00:06<00:00, 3.45MB/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m  96%|█████████▌| 25.3M/26.4M [00:05<00:00, 4.54MB/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m 100%|█████████▉| 26.3M/26.4M [00:06<00:00, 4.49MB/s]100%|██████████| 26.4M/26.4M [00:06<00:00, 4.26MB/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m  99%|█████████▉| 26.2M/26.4M [00:06<00:00, 3.17MB/s]100%|██████████| 26.4M/26.4M [00:06<00:00, 4.22MB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m  93%|█████████▎| 24.5M/26.4M [00:07<00:00, 2.60MB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m  95%|█████████▍| 25.1M/26.4M [00:07<00:00, 2.52MB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m  97%|█████████▋| 25.7M/26.4M [00:07<00:00, 2.46MB/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m 100%|██████████| 29.5k/29.5k [00:00<00:00, 131kB/s]100%|██████████| 29.5k/29.5k [00:00<00:00, 131kB/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m 100%|██████████| 29.5k/29.5k [00:00<00:00, 131kB/s]100%|██████████| 29.5k/29.5k [00:00<00:00, 131kB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m  99%|█████████▉| 26.2M/26.4M [00:08<00:00, 2.46MB/s]100%|██████████| 26.4M/26.4M [00:08<00:00, 3.24MB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m 100%|██████████| 29.5k/29.5k [00:00<00:00, 126kB/s]100%|██████████| 29.5k/29.5k [00:00<00:00, 126kB/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m   0%|          | 0.00/29.5k [00:00<?, ?B/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m  21%|██        | 918k/4.42M [00:01<00:03, 1.06MB/s][32m [repeated 23x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Moving model to device: cpu
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Wrapping provided model in DistributedDataParallel.
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 0:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 0:   0%|          | 1/500 [00:00<02:24,  3.46it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m   0%|          | 0.00/5.15k [00:00<?, ?B/s]100%|██████████| 5.15k/5.15k [00:00<00:00, 19.2MB/s][32m [repeated 4x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m  83%|████████▎ | 3.67M/4.42M [00:01<00:00, 3.82MB/s]100%|██████████| 4.42M/4.42M [00:01<00:00, 2.34MB/s][32m [repeated 13x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Moving model to device: cpu[32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Wrapping provided model in DistributedDataParallel.[32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 0:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 0:  18%|█▊        | 91/500 [00:05<00:22, 18.04it/s][32m [repeated 540x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 0:  36%|███▌      | 179/500 [00:10<00:18, 17.76it/s][32m [repeated 535x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 0:  54%|█████▍    | 271/500 [00:15<00:12, 18.05it/s][32m [repeated 549x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 0:  72%|███████▏  | 361/500 [00:20<00:07, 17.87it/s][32m [repeated 538x across cluster][0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Train Epoch 0:  82%|████████▏ | 411/500 [00:23<00:04, 18.64it/s]Train Epoch 0:  83%|████████▎ | 413/500 [00:23<00:04, 19.01it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 0:  91%|█████████ | 453/500 [00:25<00:02, 18.55it/s][32m [repeated 547x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 0:  91%|█████████▏| 457/500 [00:25<00:02, 18.80it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 0: 100%|██████████| 500/500 [00:27<00:00, 17.90it/s]Train Epoch 0: 100%|██████████| 500/500 [00:27<00:00, 17.89it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 0:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 0:  19%|█▉        | 16/84 [00:00<00:00, 158.75it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 0:  96%|█████████▋| 81/84 [00:00<00:00, 287.80it/s]Test Epoch 0: 100%|██████████| 84/84 [00:00<00:00, 272.77it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 1:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 0: 100%|██████████| 84/84 [00:00<00:00, 284.70it/s]
+
+Training finished iteration 1 at 2025-06-09 00:22:18. Total running time: 1min 1s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      52.8258 │
+│ time_total_s          52.8258 │
+│ training_iteration          1 │
+│ accuracy              0.67146 │
+│ loss                  0.96706 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 1:   7%|▋         | 35/500 [00:02<00:25, 18.26it/s][32m [repeated 235x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 0: 100%|█████████▉| 498/500 [00:27<00:00, 17.84it/s][32m [repeated 251x across cluster][0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Train Epoch 0: 100%|█████████▉| 499/500 [00:27<00:00, 17.76it/s]Train Epoch 0: 100%|██████████| 500/500 [00:27<00:00, 17.93it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Test Epoch 0:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 0:  82%|████████▏ | 69/84 [00:00<00:00, 232.36it/s][32m [repeated 25x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 0:  98%|█████████▊| 82/84 [00:00<00:00, 286.73it/s]Test Epoch 0: 100%|██████████| 84/84 [00:00<00:00, 275.27it/s][32m [repeated 4x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 1:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 0: 100%|██████████| 84/84 [00:00<00:00, 242.18it/s][32m [repeated 6x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 1:  25%|██▌       | 127/500 [00:07<00:20, 18.25it/s][32m [repeated 542x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 1:  43%|████▎     | 217/500 [00:12<00:15, 18.10it/s][32m [repeated 542x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 1:  62%|██████▏   | 308/500 [00:17<00:10, 18.37it/s][32m [repeated 550x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 1:  79%|███████▉  | 397/500 [00:22<00:05, 18.45it/s][32m [repeated 534x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 1:  91%|█████████▏| 457/500 [00:25<00:02, 17.97it/s]
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 1:  91%|█████████ | 456/500 [00:25<00:02, 18.23it/s][32m [repeated 355x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 1: 100%|██████████| 500/500 [00:27<00:00, 18.38it/s]Train Epoch 1: 100%|██████████| 500/500 [00:27<00:00, 18.02it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 1:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 1:  24%|██▍       | 20/84 [00:00<00:00, 193.84it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 1:  73%|███████▎  | 61/84 [00:00<00:00, 304.37it/s]Test Epoch 1: 100%|██████████| 84/84 [00:00<00:00, 311.54it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 2:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 1: 100%|██████████| 84/84 [00:00<00:00, 277.72it/s]
+
+Training finished iteration 2 at 2025-06-09 00:22:46. Total running time: 1min 29s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      28.1166 │
+│ time_total_s          80.9424 │
+│ training_iteration          2 │
+│ accuracy              0.70024 │
+│ loss                  0.84152 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 1: 100%|██████████| 500/500 [00:27<00:00, 17.98it/s][32m [repeated 259x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 2:  15%|█▍        | 73/500 [00:04<00:22, 18.69it/s][32m [repeated 436x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 1: 100%|██████████| 500/500 [00:27<00:00, 18.32it/s]Train Epoch 1: 100%|██████████| 500/500 [00:27<00:00, 17.99it/s][32m [repeated 7x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 1:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 1:  71%|███████▏  | 60/84 [00:00<00:00, 196.97it/s][32m [repeated 19x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 1:  64%|██████▍   | 54/84 [00:00<00:00, 277.52it/s]Test Epoch 1: 100%|██████████| 84/84 [00:00<00:00, 294.53it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 2:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 1: 100%|██████████| 84/84 [00:00<00:00, 224.28it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 2:  33%|███▎      | 163/500 [00:09<00:19, 17.67it/s][32m [repeated 537x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 2:  51%|█████     | 253/500 [00:14<00:13, 18.37it/s][32m [repeated 544x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 2:  69%|██████▉   | 345/500 [00:19<00:08, 18.36it/s][32m [repeated 552x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 2:  88%|████████▊ | 440/500 [00:24<00:03, 19.05it/s][32m [repeated 560x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 2:  92%|█████████▏| 458/500 [00:25<00:02, 18.39it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 2: 100%|█████████▉| 499/500 [00:27<00:00, 18.47it/s]Train Epoch 2: 100%|██████████| 500/500 [00:27<00:00, 18.10it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 2:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 2:  25%|██▌       | 21/84 [00:00<00:00, 201.17it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 2: 100%|██████████| 84/84 [00:00<00:00, 327.93it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 2:  64%|██████▍   | 54/84 [00:00<00:00, 230.93it/s]Test Epoch 2: 100%|██████████| 84/84 [00:00<00:00, 261.67it/s]
+
+Training finished iteration 3 at 2025-06-09 00:23:14. Total running time: 1min 57s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      27.8868 │
+│ time_total_s          108.829 │
+│ training_iteration          3 │
+│ accuracy              0.78897 │
+│ loss                  0.56098 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:   5%|▌         | 25/500 [00:01<00:25, 18.32it/s][32m [repeated 252x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 2: 100%|██████████| 500/500 [00:27<00:00, 18.11it/s][32m [repeated 257x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 2: 100%|██████████| 500/500 [00:27<00:00, 18.67it/s]Train Epoch 2: 100%|██████████| 500/500 [00:27<00:00, 18.08it/s][32m [repeated 8x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 2:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 2:  77%|███████▋  | 65/84 [00:00<00:00, 214.63it/s][32m [repeated 24x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 2: 100%|██████████| 84/84 [00:00<00:00, 233.90it/s][32m [repeated 10x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 3:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  23%|██▎       | 117/500 [00:06<00:21, 17.95it/s][32m [repeated 551x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  28%|██▊       | 142/500 [00:11<03:25,  1.74it/s][32m [repeated 153x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 3:  30%|███       | 150/500 [00:16<04:01,  1.45it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  31%|███▏      | 157/500 [00:23<06:33,  1.15s/it][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  33%|███▎      | 166/500 [00:28<04:21,  1.28it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  34%|███▍      | 172/500 [00:33<06:02,  1.11s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 3:  36%|███▌      | 178/500 [00:38<06:02,  1.13s/it][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 3:  37%|███▋      | 184/500 [00:43<06:30,  1.24s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 3:  38%|███▊      | 189/500 [00:48<07:15,  1.40s/it][32m [repeated 42x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  39%|███▉      | 195/500 [00:54<05:57,  1.17s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  40%|████      | 202/500 [00:59<04:32,  1.09it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 3:  42%|████▏     | 208/500 [01:04<05:10,  1.06s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  43%|████▎     | 215/500 [01:09<04:42,  1.01it/s][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 3:  44%|████▍     | 220/500 [01:14<05:29,  1.18s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  45%|████▌     | 226/500 [01:20<05:34,  1.22s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  47%|████▋     | 234/500 [01:25<03:46,  1.17it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  48%|████▊     | 241/500 [01:30<03:59,  1.08it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  50%|████▉     | 248/500 [01:35<03:59,  1.05it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  51%|█████     | 254/500 [01:40<04:21,  1.06s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  52%|█████▏    | 260/500 [01:46<03:57,  1.01it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  53%|█████▎    | 266/500 [01:51<04:26,  1.14s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  55%|█████▍    | 273/500 [01:56<03:24,  1.11it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 3:  56%|█████▌    | 280/500 [02:01<03:20,  1.10it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 3:  57%|█████▋    | 287/500 [02:06<03:48,  1.07s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  59%|█████▉    | 296/500 [02:12<02:32,  1.33it/s][32m [repeated 92x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  61%|██████    | 303/500 [02:16<02:56,  1.12it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  62%|██████▏   | 308/500 [02:22<04:17,  1.34s/it][32m [repeated 47x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  63%|██████▎   | 314/500 [02:27<03:30,  1.13s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 3:  64%|██████▍   | 320/500 [02:32<03:15,  1.08s/it][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 3:  65%|██████▌   | 327/500 [02:37<02:59,  1.04s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  67%|██████▋   | 333/500 [02:43<03:17,  1.18s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  68%|██████▊   | 341/500 [02:48<02:10,  1.21it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  70%|███████   | 350/500 [02:53<01:48,  1.39it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  71%|███████▏  | 357/500 [02:58<02:07,  1.12it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  73%|███████▎  | 365/500 [03:03<01:50,  1.22it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  74%|███████▍  | 372/500 [03:09<01:58,  1.08it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  75%|███████▌  | 377/500 [03:14<02:18,  1.12s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  77%|███████▋  | 383/500 [03:19<02:08,  1.10s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  78%|███████▊  | 392/500 [03:24<01:23,  1.29it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  80%|███████▉  | 399/500 [03:29<01:35,  1.06it/s][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  81%|████████  | 406/500 [03:34<01:29,  1.05it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  83%|████████▎ | 414/500 [03:40<01:12,  1.18it/s][32m [repeated 79x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  84%|████████▍ | 422/500 [03:45<01:06,  1.17it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 3:  86%|████████▌ | 429/500 [03:50<01:07,  1.05it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  87%|████████▋ | 435/500 [03:55<01:07,  1.04s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  88%|████████▊ | 441/500 [04:00<01:06,  1.13s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  90%|████████▉ | 449/500 [04:06<00:38,  1.31it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 3:  91%|█████████ | 456/500 [04:11<00:38,  1.13it/s][32m [repeated 83x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  91%|█████████▏| 457/500 [04:11<00:31,  1.38it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3:  93%|█████████▎| 463/500 [04:16<00:40,  1.09s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  94%|█████████▍| 471/500 [04:21<00:25,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 3:  96%|█████████▌| 478/500 [04:26<00:21,  1.03it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 3:  97%|█████████▋| 485/500 [04:32<00:15,  1.03s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 3:  98%|█████████▊| 491/500 [04:37<00:09,  1.07s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3: 100%|█████████▉| 499/500 [04:42<00:00,  1.11it/s][32m [repeated 76x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 3: 100%|██████████| 500/500 [04:42<00:00,  1.44it/s]Train Epoch 3: 100%|██████████| 500/500 [04:42<00:00,  1.77it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 3:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 3:  19%|█▉        | 16/84 [00:00<00:00, 158.57it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 3:  94%|█████████▍| 79/84 [00:00<00:00, 273.13it/s]Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 263.86it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Test Epoch 3:  90%|█████████ | 76/84 [00:00<00:00, 266.74it/s]Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 259.90it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 280.27it/s]
+
+Training finished iteration 4 at 2025-06-09 00:27:57. Total running time: 6min 40s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      282.948 │
+│ time_total_s          391.777 │
+│ training_iteration          4 │
+│ accuracy              0.80096 │
+│ loss                  0.51942 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:   0%|          | 1/500 [00:01<10:44,  1.29s/it]
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 3: 100%|██████████| 500/500 [04:42<00:00,  1.77it/s][32m [repeated 12x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 3: 100%|█████████▉| 499/500 [04:42<00:00,  1.16it/s]Train Epoch 3: 100%|██████████| 500/500 [04:42<00:00,  1.77it/s][32m [repeated 7x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 3:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 3:  40%|████      | 34/84 [00:00<00:00, 99.08it/s] [32m [repeated 26x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 3:  95%|█████████▌| 80/84 [00:00<00:00, 276.44it/s]Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 266.99it/s][32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 4:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 3:  82%|████████▏ | 69/84 [00:00<00:00, 180.57it/s]Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 182.13it/s][32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Test Epoch 3: 100%|██████████| 84/84 [00:00<00:00, 221.19it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:   2%|▏         | 8/500 [00:07<08:06,  1.01it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:   3%|▎         | 14/500 [00:13<08:53,  1.10s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:   4%|▍         | 20/500 [00:18<08:09,  1.02s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 4:   5%|▌         | 27/500 [00:23<06:34,  1.20it/s][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:   7%|▋         | 34/500 [00:29<08:04,  1.04s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:   8%|▊         | 40/500 [00:35<09:46,  1.27s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 4:  10%|▉         | 48/500 [00:40<06:06,  1.23it/s][32m [repeated 90x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  11%|█         | 56/500 [00:45<06:25,  1.15it/s][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  13%|█▎        | 63/500 [00:50<06:53,  1.06it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  14%|█▍        | 69/500 [00:55<08:13,  1.15s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  15%|█▌        | 75/500 [01:01<07:44,  1.09s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 4:  17%|█▋        | 83/500 [01:05<05:22,  1.29it/s][32m [repeated 91x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  18%|█▊        | 90/500 [01:11<06:43,  1.01it/s][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  20%|█▉        | 98/500 [01:16<05:06,  1.31it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  21%|██        | 106/500 [01:21<05:38,  1.16it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  23%|██▎       | 113/500 [01:27<07:10,  1.11s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  24%|██▍       | 120/500 [01:32<06:09,  1.03it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  26%|██▌       | 129/500 [01:37<04:51,  1.27it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  27%|██▋       | 136/500 [01:43<05:31,  1.10it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  29%|██▊       | 143/500 [01:48<04:50,  1.23it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  30%|██▉       | 149/500 [01:53<06:07,  1.05s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  31%|███       | 155/500 [01:58<06:33,  1.14s/it][32m [repeated 54x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  33%|███▎      | 164/500 [02:03<04:26,  1.26it/s][32m [repeated 92x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  34%|███▍      | 171/500 [02:09<05:51,  1.07s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  35%|███▌      | 177/500 [02:14<06:00,  1.12s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 4:  37%|███▋      | 184/500 [02:19<05:06,  1.03it/s][32m [repeated 76x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  38%|███▊      | 190/500 [02:24<06:45,  1.31s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 4:  39%|███▉      | 197/500 [02:29<04:52,  1.04it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  41%|████      | 203/500 [02:34<05:19,  1.08s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  42%|████▏     | 209/500 [02:40<05:58,  1.23s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  43%|████▎     | 215/500 [02:45<05:37,  1.18s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  46%|████▌     | 228/500 [02:50<02:12,  2.05it/s][32m [repeated 133x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  47%|████▋     | 235/500 [02:55<03:59,  1.11it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  49%|████▊     | 243/500 [03:01<03:31,  1.22it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  50%|█████     | 251/500 [03:06<03:07,  1.33it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  52%|█████▏    | 261/500 [03:11<02:19,  1.71it/s][32m [repeated 108x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  54%|█████▍    | 269/500 [03:16<03:05,  1.24it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  55%|█████▌    | 275/500 [03:21<03:55,  1.05s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  57%|█████▋    | 283/500 [03:26<03:12,  1.13it/s][32m [repeated 76x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  58%|█████▊    | 290/500 [03:32<03:38,  1.04s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  60%|█████▉    | 298/500 [03:37<02:54,  1.16it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  61%|██████    | 305/500 [03:42<03:22,  1.04s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 4:  63%|██████▎   | 314/500 [03:47<02:20,  1.32it/s][32m [repeated 93x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  64%|██████▍   | 320/500 [03:52<03:36,  1.20s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  65%|██████▌   | 327/500 [03:57<02:49,  1.02it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  67%|██████▋   | 334/500 [04:03<02:53,  1.04s/it][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  68%|██████▊   | 340/500 [04:08<02:46,  1.04s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  69%|██████▉   | 346/500 [04:13<02:58,  1.16s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  70%|███████   | 352/500 [04:19<02:46,  1.12s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 4:  72%|███████▏  | 359/500 [04:23<02:14,  1.05it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  73%|███████▎  | 366/500 [04:29<02:05,  1.07it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  75%|███████▍  | 373/500 [04:34<02:06,  1.00it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  76%|███████▌  | 380/500 [04:39<01:58,  1.01it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  77%|███████▋  | 387/500 [04:44<01:57,  1.04s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  79%|███████▊  | 393/500 [04:50<01:47,  1.01s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  80%|████████  | 400/500 [04:55<01:26,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  81%|████████  | 405/500 [05:00<01:52,  1.18s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 4:  82%|████████▏ | 412/500 [05:05<01:23,  1.05it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  84%|████████▍ | 419/500 [05:10<01:25,  1.05s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 4:  85%|████████▌ | 426/500 [05:16<01:07,  1.10it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  87%|████████▋ | 433/500 [05:21<01:02,  1.07it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  88%|████████▊ | 439/500 [05:26<01:04,  1.05s/it][32m [repeated 52x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  89%|████████▉ | 446/500 [05:31<00:56,  1.04s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 4:  91%|█████████ | 453/500 [05:36<00:43,  1.08it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  91%|█████████▏| 457/500 [05:39<00:39,  1.10it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 4:  91%|█████████ | 456/500 [05:37<00:28,  1.56it/s][32m [repeated 35x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  93%|█████████▎| 464/500 [05:44<00:29,  1.23it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  94%|█████████▍| 472/500 [05:50<00:20,  1.35it/s][32m [repeated 77x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 4:  96%|█████████▌| 479/500 [05:55<00:17,  1.22it/s][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 4:  97%|█████████▋| 485/500 [06:00<00:12,  1.18it/s][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4:  98%|█████████▊| 492/500 [06:05<00:06,  1.14it/s][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4: 100%|█████████▉| 499/500 [06:10<00:00,  1.27it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 4: 100%|██████████| 500/500 [06:11<00:00,  1.18it/s]Train Epoch 4: 100%|██████████| 500/500 [06:11<00:00,  1.34it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 4:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 4:  21%|██▏       | 18/84 [00:00<00:00, 177.62it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 4:  98%|█████████▊| 82/84 [00:00<00:00, 285.14it/s]Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 273.96it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 290.53it/s]
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 4:  71%|███████▏  | 60/84 [00:00<00:00, 298.20it/s]Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 303.70it/s]
+
+Training finished iteration 5 at 2025-06-09 00:34:09. Total running time: 12min 52s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      372.321 │
+│ time_total_s          764.098 │
+│ training_iteration          5 │
+│ accuracy              0.81655 │
+│ loss                  0.49093 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:   0%|          | 1/500 [00:00<06:52,  1.21it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 4: 100%|█████████▉| 499/500 [06:11<00:00,  1.29it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 4: 100%|██████████| 500/500 [06:12<00:00,  1.20it/s]Train Epoch 4: 100%|██████████| 500/500 [06:12<00:00,  1.34it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Test Epoch 4:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 4:  71%|███████▏  | 60/84 [00:00<00:00, 297.77it/s][32m [repeated 21x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 4:  96%|█████████▋| 81/84 [00:00<00:00, 269.94it/s]Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 267.74it/s][32m [repeated 3x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 5:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 295.24it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Test Epoch 4:  67%|██████▋   | 56/84 [00:00<00:00, 277.73it/s]Test Epoch 4: 100%|██████████| 84/84 [00:00<00:00, 299.30it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:   2%|▏         | 8/500 [00:06<07:50,  1.05it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:   3%|▎         | 14/500 [00:11<08:07,  1.00s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:   4%|▍         | 20/500 [00:16<08:39,  1.08s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:   6%|▌         | 28/500 [00:21<06:37,  1.19it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:   7%|▋         | 34/500 [00:26<07:53,  1.02s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 5:   8%|▊         | 41/500 [00:31<06:56,  1.10it/s][32m [repeated 82x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 5:  10%|▉         | 48/500 [00:36<07:13,  1.04it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  11%|█         | 54/500 [00:42<08:59,  1.21s/it][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  12%|█▏        | 61/500 [00:47<06:45,  1.08it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 5:  14%|█▍        | 71/500 [00:52<04:37,  1.54it/s][32m [repeated 107x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  16%|█▌        | 79/500 [00:57<06:01,  1.17it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 5:  17%|█▋        | 86/500 [01:02<06:28,  1.07it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  19%|█▊        | 93/500 [01:07<06:55,  1.02s/it][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  20%|██        | 100/500 [01:13<06:57,  1.04s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  22%|██▏       | 108/500 [01:18<05:39,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  23%|██▎       | 114/500 [01:23<07:23,  1.15s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  24%|██▍       | 119/500 [01:29<08:05,  1.28s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  25%|██▌       | 125/500 [01:34<07:05,  1.14s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 5:  26%|██▋       | 132/500 [01:39<05:41,  1.08it/s][32m [repeated 81x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  28%|██▊       | 142/500 [01:44<04:17,  1.39it/s][32m [repeated 90x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  30%|██▉       | 148/500 [01:49<06:20,  1.08s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  31%|███       | 154/500 [01:54<06:14,  1.08s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  32%|███▏      | 162/500 [02:00<04:48,  1.17it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  34%|███▍      | 171/500 [02:05<03:41,  1.49it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  36%|███▌      | 180/500 [02:10<03:35,  1.49it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 5:  37%|███▋      | 187/500 [02:15<04:34,  1.14it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  39%|███▉      | 196/500 [02:20<03:56,  1.29it/s][32m [repeated 86x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  41%|████      | 203/500 [02:26<04:52,  1.01it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  42%|████▏     | 209/500 [02:31<05:13,  1.08s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  43%|████▎     | 216/500 [02:36<04:54,  1.04s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  45%|████▍     | 223/500 [02:41<04:27,  1.04it/s][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  47%|████▋     | 235/500 [02:46<02:11,  2.01it/s][32m [repeated 132x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  49%|████▊     | 243/500 [02:51<03:27,  1.24it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  50%|█████     | 250/500 [02:57<03:57,  1.05it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  51%|█████▏    | 257/500 [03:02<03:40,  1.10it/s][32m [repeated 78x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  54%|█████▎    | 268/500 [03:07<02:31,  1.53it/s][32m [repeated 114x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  55%|█████▌    | 275/500 [03:12<03:45,  1.00s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  56%|█████▋    | 282/500 [03:17<03:36,  1.00it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  58%|█████▊    | 289/500 [03:23<03:26,  1.02it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  60%|██████    | 300/500 [03:28<01:50,  1.80it/s][32m [repeated 108x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  61%|██████▏   | 307/500 [03:33<02:44,  1.17it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  63%|██████▎   | 313/500 [03:38<03:19,  1.06s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  64%|██████▍   | 320/500 [03:43<02:51,  1.05it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  65%|██████▌   | 327/500 [03:49<02:31,  1.14it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  67%|██████▋   | 333/500 [03:54<02:45,  1.01it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  68%|██████▊   | 339/500 [03:59<02:42,  1.01s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 5:  69%|██████▉   | 345/500 [04:04<02:39,  1.03s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  70%|███████   | 351/500 [04:09<02:42,  1.09s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  71%|███████▏  | 357/500 [04:15<02:39,  1.12s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  73%|███████▎  | 364/500 [04:20<02:12,  1.03it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  74%|███████▍  | 371/500 [04:25<02:04,  1.04it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  76%|███████▌  | 381/500 [04:30<01:19,  1.50it/s][32m [repeated 108x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  78%|███████▊  | 389/500 [04:35<01:35,  1.16it/s][32m [repeated 82x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 5:  79%|███████▉  | 395/500 [04:40<01:54,  1.09s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  80%|████████  | 402/500 [04:45<01:42,  1.04s/it][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  82%|████████▏ | 409/500 [04:51<01:30,  1.01it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  83%|████████▎ | 414/500 [04:56<01:50,  1.28s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  84%|████████▍ | 420/500 [05:01<01:31,  1.14s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  85%|████████▌ | 427/500 [05:07<01:05,  1.11it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  87%|████████▋ | 434/500 [05:12<01:00,  1.09it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5:  89%|████████▉ | 446/500 [05:17<00:27,  1.95it/s][32m [repeated 133x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  91%|█████████ | 453/500 [05:22<00:47,  1.02s/it][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  91%|█████████▏| 457/500 [05:24<00:30,  1.41it/s]
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 5:  91%|█████████ | 456/500 [05:23<00:25,  1.72it/s][32m [repeated 35x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  93%|█████████▎| 464/500 [05:29<00:24,  1.45it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  94%|█████████▍| 472/500 [05:35<00:18,  1.48it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  96%|█████████▌| 479/500 [05:40<00:16,  1.24it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 5:  97%|█████████▋| 487/500 [05:45<00:08,  1.60it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 5:  99%|█████████▉| 496/500 [05:50<00:02,  1.69it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 5: 100%|█████████▉| 499/500 [05:53<00:00,  1.32it/s]Train Epoch 5: 100%|██████████| 500/500 [05:53<00:00,  1.41it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 5:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 5:  37%|███▋      | 31/84 [00:00<00:00, 302.26it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 5:  71%|███████▏  | 60/84 [00:00<00:00, 302.45it/s]Test Epoch 5: 100%|██████████| 84/84 [00:00<00:00, 308.96it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Test Epoch 5: 100%|██████████| 84/84 [00:00<00:00, 288.65it/s]
+
+Training finished iteration 6 at 2025-06-09 00:40:03. Total running time: 18min 46s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      353.959 │
+│ time_total_s          1118.06 │
+│ training_iteration          6 │
+│ accuracy              0.82254 │
+│ loss                  0.47787 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:   0%|          | 1/500 [00:00<07:29,  1.11it/s]
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 5: 100%|██████████| 500/500 [05:53<00:00,  1.41it/s][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 5: 100%|█████████▉| 499/500 [05:53<00:00,  1.40it/s]Train Epoch 5: 100%|██████████| 500/500 [05:53<00:00,  1.41it/s][32m [repeated 4x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 5:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 5:  74%|███████▍  | 62/84 [00:00<00:00, 211.25it/s][32m [repeated 20x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 5:  82%|████████▏ | 69/84 [00:00<00:00, 340.18it/s]Test Epoch 5: 100%|██████████| 84/84 [00:00<00:00, 345.23it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 6:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 5: 100%|██████████| 84/84 [00:00<00:00, 227.13it/s][32m [repeated 5x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:   2%|▏         | 10/500 [00:06<03:51,  2.12it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 6:   4%|▍         | 19/500 [00:11<04:09,  1.93it/s][32m [repeated 99x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:   5%|▌         | 26/500 [00:17<05:40,  1.39it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:   7%|▋         | 33/500 [00:22<05:23,  1.44it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:   8%|▊         | 40/500 [00:27<05:41,  1.35it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:   9%|▉         | 46/500 [00:32<06:23,  1.18it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  10%|█         | 51/500 [00:37<06:31,  1.15it/s][32m [repeated 43x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Train Epoch 6:  11%|█         | 56/500 [00:42<06:47,  1.09it/s][32m [repeated 54x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  12%|█▏        | 62/500 [00:47<05:20,  1.37it/s][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  14%|█▎        | 68/500 [00:53<05:38,  1.28it/s][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  15%|█▍        | 74/500 [00:58<05:46,  1.23it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  16%|█▌        | 81/500 [01:04<06:16,  1.11it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  17%|█▋        | 87/500 [01:09<06:18,  1.09it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  19%|█▉        | 96/500 [01:15<04:15,  1.58it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  21%|██        | 105/500 [01:21<05:48,  1.13it/s][32m [repeated 91x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  22%|██▏       | 112/500 [01:26<05:57,  1.08it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  24%|██▎       | 118/500 [01:32<07:25,  1.17s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  25%|██▍       | 124/500 [01:38<07:06,  1.14s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  26%|██▌       | 129/500 [01:43<07:12,  1.17s/it][32m [repeated 41x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  27%|██▋       | 135/500 [01:48<06:12,  1.02s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  29%|██▊       | 143/500 [01:53<05:09,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  30%|███       | 150/500 [01:58<05:21,  1.09it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Train Epoch 6:  31%|███       | 155/500 [02:03<06:50,  1.19s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 6:  33%|███▎      | 165/500 [02:08<03:43,  1.50it/s][32m [repeated 104x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  34%|███▍      | 172/500 [02:14<05:37,  1.03s/it][32m [repeated 56x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  36%|███▌      | 179/500 [02:19<05:00,  1.07it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 6:  37%|███▋      | 184/500 [02:24<06:22,  1.21s/it][32m [repeated 58x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  38%|███▊      | 190/500 [02:30<06:22,  1.24s/it][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  39%|███▉      | 196/500 [02:35<05:42,  1.13s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  41%|████      | 203/500 [02:40<04:21,  1.14it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  42%|████▏     | 210/500 [02:45<04:37,  1.05it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  43%|████▎     | 217/500 [02:50<04:40,  1.01it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  45%|████▌     | 225/500 [02:55<03:55,  1.17it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  47%|████▋     | 233/500 [03:01<03:54,  1.14it/s][32m [repeated 79x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  48%|████▊     | 240/500 [03:06<03:50,  1.13it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  49%|████▉     | 246/500 [03:11<04:29,  1.06s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  50%|█████     | 252/500 [03:16<04:13,  1.02s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  52%|█████▏    | 262/500 [03:21<02:23,  1.66it/s][32m [repeated 108x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  54%|█████▍    | 269/500 [03:27<03:25,  1.12it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  55%|█████▌    | 275/500 [03:32<04:02,  1.08s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  57%|█████▋    | 283/500 [03:37<03:08,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 6:  58%|█████▊    | 290/500 [03:42<03:10,  1.10it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  60%|██████    | 300/500 [03:47<02:27,  1.35it/s][32m [repeated 93x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  61%|██████    | 306/500 [03:53<03:17,  1.02s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  64%|██████▍   | 319/500 [03:58<01:27,  2.06it/s][32m [repeated 132x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  65%|██████▌   | 327/500 [04:03<02:19,  1.24it/s][32m [repeated 77x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  67%|██████▋   | 335/500 [04:08<02:16,  1.21it/s][32m [repeated 79x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  68%|██████▊   | 341/500 [04:13<02:48,  1.06s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  69%|██████▉   | 346/500 [04:19<03:08,  1.22s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  70%|███████   | 352/500 [04:24<02:43,  1.11s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  71%|███████▏  | 357/500 [04:29<03:00,  1.26s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  73%|███████▎  | 364/500 [04:34<02:14,  1.01it/s][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 6:  74%|███████▍  | 370/500 [04:39<02:26,  1.12s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  75%|███████▌  | 376/500 [04:44<02:22,  1.15s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  76%|███████▌  | 381/500 [04:50<02:27,  1.24s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  77%|███████▋  | 387/500 [04:55<02:03,  1.10s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  79%|███████▊  | 393/500 [05:00<02:01,  1.13s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 6:  80%|████████  | 401/500 [05:05<01:20,  1.23it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  82%|████████▏ | 411/500 [05:10<00:56,  1.58it/s][32m [repeated 108x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 6:  83%|████████▎ | 417/500 [05:16<01:27,  1.06s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 6:  85%|████████▌ | 427/500 [05:20<00:47,  1.53it/s][32m [repeated 107x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 6:  87%|████████▋ | 435/500 [05:26<00:59,  1.09it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  88%|████████▊ | 441/500 [05:31<01:03,  1.07s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6:  89%|████████▉ | 447/500 [05:36<00:59,  1.12s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6:  91%|█████████ | 454/500 [05:41<00:44,  1.04it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  91%|█████████▏| 457/500 [05:43<00:29,  1.45it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 6:  91%|█████████ | 456/500 [05:42<00:25,  1.75it/s][32m [repeated 23x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  93%|█████████▎| 463/500 [05:48<00:26,  1.38it/s][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 6:  94%|█████████▍| 469/500 [05:53<00:20,  1.53it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  95%|█████████▌| 477/500 [05:59<00:13,  1.69it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 6:  97%|█████████▋| 483/500 [06:04<00:11,  1.43it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 6:  98%|█████████▊| 490/500 [06:10<00:08,  1.14it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 6:  99%|█████████▉| 496/500 [06:15<00:03,  1.30it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 6: 100%|█████████▉| 499/500 [06:18<00:00,  1.08it/s]Train Epoch 6: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 6:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 6:  32%|███▏      | 27/84 [00:00<00:00, 269.88it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 296.07it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 6:  95%|█████████▌| 80/84 [00:00<00:00, 279.07it/s]Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 267.22it/s]
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Test Epoch 6:  83%|████████▎ | 70/84 [00:00<00:00, 234.41it/s]Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 246.23it/s]
+
+Training finished iteration 7 at 2025-06-09 00:46:22. Total running time: 25min 5s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      378.667 │
+│ time_total_s          1496.72 │
+│ training_iteration          7 │
+│ accuracy              0.82614 │
+│ loss                  0.45976 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:   0%|          | 1/500 [00:01<12:05,  1.45s/it]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 6: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s][32m [repeated 40x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 6: 100%|██████████| 500/500 [06:18<00:00,  1.43it/s]Train Epoch 6: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s][32m [repeated 6x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 6:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 6:  67%|██████▋   | 56/84 [00:00<00:00, 179.93it/s][32m [repeated 24x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 205.87it/s][32m [repeated 3x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 7:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 6:  98%|█████████▊| 82/84 [00:00<00:00, 265.70it/s]Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 268.45it/s][32m [repeated 3x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 6:  77%|███████▋  | 65/84 [00:00<00:00, 216.23it/s]Test Epoch 6: 100%|██████████| 84/84 [00:00<00:00, 226.50it/s][32m [repeated 3x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:   2%|▏         | 8/500 [00:07<06:38,  1.23it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 7:   3%|▎         | 14/500 [00:12<06:17,  1.29it/s][32m [repeated 57x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:   4%|▍         | 22/500 [00:17<05:03,  1.57it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:   6%|▌         | 31/500 [00:23<07:03,  1.11it/s][32m [repeated 85x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:   7%|▋         | 37/500 [00:28<06:50,  1.13it/s][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:   9%|▉         | 45/500 [00:34<05:44,  1.32it/s][32m [repeated 83x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 7:  10%|█         | 52/500 [00:39<06:31,  1.14it/s][32m [repeated 83x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  12%|█▏        | 58/500 [00:44<07:16,  1.01it/s][32m [repeated 56x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  13%|█▎        | 64/500 [00:49<08:00,  1.10s/it][32m [repeated 52x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  14%|█▍        | 69/500 [00:55<08:37,  1.20s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 7:  15%|█▌        | 75/500 [01:00<06:47,  1.04it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  16%|█▋        | 82/500 [01:05<06:34,  1.06it/s][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 7:  18%|█▊        | 88/500 [01:10<07:08,  1.04s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  19%|█▉        | 94/500 [01:16<07:25,  1.10s/it][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  20%|██        | 101/500 [01:21<06:44,  1.01s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  21%|██▏       | 107/500 [01:27<07:23,  1.13s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 7:  23%|██▎       | 113/500 [01:32<06:54,  1.07s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  24%|██▍       | 120/500 [01:37<06:46,  1.07s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  26%|██▌       | 128/500 [01:42<04:53,  1.27it/s][32m [repeated 85x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 7:  27%|██▋       | 135/500 [01:48<06:06,  1.00s/it][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  29%|██▊       | 143/500 [01:53<05:10,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  30%|███       | 150/500 [01:58<05:49,  1.00it/s][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  31%|███       | 156/500 [02:04<06:10,  1.08s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  33%|███▎      | 165/500 [02:09<04:21,  1.28it/s][32m [repeated 85x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  34%|███▍      | 172/500 [02:14<05:33,  1.02s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  36%|███▌      | 180/500 [02:19<04:23,  1.21it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  37%|███▋      | 185/500 [02:24<06:17,  1.20s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  38%|███▊      | 191/500 [02:30<06:01,  1.17s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  39%|███▉      | 197/500 [02:35<05:50,  1.16s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  41%|████      | 203/500 [02:40<05:40,  1.14s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  42%|████▏     | 209/500 [02:45<05:52,  1.21s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 7:  43%|████▎     | 216/500 [02:50<04:45,  1.00s/it][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  45%|████▍     | 224/500 [02:55<04:07,  1.11it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 7:  46%|████▌     | 230/500 [03:00<04:37,  1.03s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  47%|████▋     | 236/500 [03:06<05:24,  1.23s/it][32m [repeated 52x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  49%|████▊     | 243/500 [03:11<04:14,  1.01it/s][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  50%|█████     | 251/500 [03:16<03:20,  1.24it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  51%|█████▏    | 257/500 [03:22<04:16,  1.06s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  53%|█████▎    | 264/500 [03:27<03:43,  1.05it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  54%|█████▍    | 270/500 [03:32<04:30,  1.17s/it][32m [repeated 54x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  55%|█████▌    | 277/500 [03:37<03:31,  1.05it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  57%|█████▋    | 285/500 [03:42<02:41,  1.33it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  59%|█████▉    | 294/500 [03:48<02:22,  1.45it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  60%|█████▉    | 298/500 [03:53<04:26,  1.32s/it][32m [repeated 43x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  61%|██████    | 304/500 [03:58<03:56,  1.21s/it][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  62%|██████▏   | 309/500 [04:03<04:04,  1.28s/it][32m [repeated 54x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 7:  63%|██████▎   | 316/500 [04:08<03:03,  1.00it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  65%|██████▍   | 323/500 [04:13<03:19,  1.13s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  66%|██████▌   | 328/500 [04:19<03:40,  1.28s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  67%|██████▋   | 336/500 [04:24<02:09,  1.27it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  68%|██████▊   | 342/500 [04:29<03:00,  1.14s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  71%|███████   | 354/500 [04:34<01:15,  1.93it/s][32m [repeated 132x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  72%|███████▏  | 360/500 [04:39<02:18,  1.01it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  73%|███████▎  | 367/500 [04:45<02:24,  1.09s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  75%|███████▍  | 374/500 [04:50<01:59,  1.06it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 7:  76%|███████▌  | 381/500 [04:55<01:46,  1.12it/s][32m [repeated 81x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  78%|███████▊  | 389/500 [05:00<01:37,  1.13it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  79%|███████▉  | 395/500 [05:05<02:03,  1.17s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  80%|████████  | 401/500 [05:10<01:52,  1.13s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 7:  82%|████████▏ | 408/500 [05:15<01:25,  1.08it/s][32m [repeated 78x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  83%|████████▎ | 415/500 [05:20<01:26,  1.01s/it][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  84%|████████▍ | 421/500 [05:26<01:35,  1.21s/it][32m [repeated 57x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 7:  85%|████████▌ | 427/500 [05:31<01:20,  1.10s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 7:  87%|████████▋ | 433/500 [05:36<01:09,  1.04s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  88%|████████▊ | 440/500 [05:42<01:08,  1.14s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  89%|████████▉ | 447/500 [05:47<00:51,  1.03it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  91%|█████████ | 456/500 [05:52<00:32,  1.34it/s][32m [repeated 95x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  92%|█████████▏| 458/500 [05:52<00:18,  2.30it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 7:  91%|█████████ | 456/500 [05:52<00:30,  1.44it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 7:  93%|█████████▎| 464/500 [05:57<00:27,  1.29it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7:  94%|█████████▍| 471/500 [06:02<00:25,  1.12it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  96%|█████████▌| 478/500 [06:07<00:21,  1.04it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7:  97%|█████████▋| 484/500 [06:13<00:18,  1.17s/it][32m [repeated 52x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 7:  98%|█████████▊| 490/500 [06:18<00:11,  1.12s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 7: 100%|█████████▉| 498/500 [06:23<00:01,  1.19it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 7: 100%|██████████| 500/500 [06:23<00:00,  1.93it/s]Train Epoch 7: 100%|██████████| 500/500 [06:23<00:00,  1.30it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 7:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 7:  21%|██▏       | 18/84 [00:00<00:00, 179.28it/s]
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Test Epoch 7:  20%|██        | 17/84 [00:00<00:00, 169.76it/s]Test Epoch 7:  50%|█████     | 42/84 [00:00<00:00, 216.72it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 7:  70%|███████   | 59/84 [00:00<00:00, 290.52it/s]Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 297.41it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 8:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 285.97it/s]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 275.46it/s]Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 274.34it/s]
+
+Training finished iteration 8 at 2025-06-09 00:52:46. Total running time: 31min 29s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s       384.12 │
+│ time_total_s          1880.84 │
+│ training_iteration          8 │
+│ accuracy              0.83333 │
+│ loss                   0.4585 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:   0%|          | 1/500 [00:01<10:03,  1.21s/it]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Train Epoch 7: 100%|█████████▉| 498/500 [06:23<00:01,  1.11it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 7: 100%|██████████| 500/500 [06:23<00:00,  1.96it/s]Train Epoch 7: 100%|██████████| 500/500 [06:23<00:00,  1.30it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 7:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 7:  77%|███████▋  | 65/84 [00:00<00:00, 184.58it/s][32m [repeated 22x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 7:  23%|██▎       | 19/84 [00:00<00:00, 187.43it/s]Test Epoch 7:  63%|██████▎   | 53/84 [00:00<00:00, 274.13it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 7:  83%|████████▎ | 70/84 [00:00<00:00, 238.26it/s]Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 241.41it/s]
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 8:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 168.94it/s][32m [repeated 7x across cluster][0m
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Test Epoch 7:  94%|█████████▍| 79/84 [00:00<00:00, 274.97it/s]Test Epoch 7: 100%|██████████| 84/84 [00:00<00:00, 265.86it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:   2%|▏         | 8/500 [00:06<05:58,  1.37it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:   3%|▎         | 16/500 [00:12<05:23,  1.50it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:   5%|▍         | 23/500 [00:17<06:09,  1.29it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:   6%|▌         | 31/500 [00:22<04:29,  1.74it/s][32m [repeated 83x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 8:   8%|▊         | 40/500 [00:27<04:47,  1.60it/s][32m [repeated 92x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  10%|▉         | 48/500 [00:33<05:08,  1.47it/s][32m [repeated 77x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  11%|█         | 55/500 [00:38<06:12,  1.20it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  12%|█▏        | 62/500 [00:44<06:30,  1.12it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 8:  14%|█▍        | 69/500 [00:49<06:10,  1.16it/s][32m [repeated 79x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 8:  15%|█▌        | 77/500 [00:54<04:56,  1.43it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  17%|█▋        | 86/500 [01:00<05:11,  1.33it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 8:  19%|█▊        | 93/500 [01:04<05:31,  1.23it/s][32m [repeated 82x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  20%|██        | 100/500 [01:10<06:04,  1.10it/s][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  21%|██        | 106/500 [01:15<06:27,  1.02it/s][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  22%|██▏       | 112/500 [01:21<07:00,  1.08s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  24%|██▍       | 119/500 [01:26<05:32,  1.15it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 8:  25%|██▌       | 125/500 [01:31<06:21,  1.02s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  26%|██▌       | 131/500 [01:36<06:13,  1.01s/it][32m [repeated 40x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  27%|██▋       | 137/500 [01:42<06:50,  1.13s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  29%|██▉       | 144/500 [01:48<06:16,  1.06s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  30%|███       | 152/500 [01:53<05:07,  1.13it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 8:  32%|███▏      | 158/500 [01:58<06:00,  1.06s/it][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  33%|███▎      | 164/500 [02:03<06:57,  1.24s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Train Epoch 8:  34%|███▍      | 170/500 [02:08<05:49,  1.06s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  36%|███▌      | 178/500 [02:14<04:51,  1.10it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  37%|███▋      | 184/500 [02:19<06:08,  1.16s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  38%|███▊      | 191/500 [02:24<05:09,  1.00s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  39%|███▉      | 197/500 [02:29<05:53,  1.17s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  40%|████      | 202/500 [02:35<06:00,  1.21s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  41%|████▏     | 207/500 [02:40<06:04,  1.25s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  43%|████▎     | 214/500 [02:45<04:42,  1.01it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  44%|████▍     | 221/500 [02:50<04:14,  1.10it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  46%|████▌     | 228/500 [02:56<04:01,  1.12it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  47%|████▋     | 233/500 [03:01<05:40,  1.28s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  48%|████▊     | 239/500 [03:06<04:52,  1.12s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  49%|████▉     | 246/500 [03:11<04:08,  1.02it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  51%|█████     | 253/500 [03:16<04:06,  1.00it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 8:  52%|█████▏    | 259/500 [03:21<04:30,  1.12s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  53%|█████▎    | 266/500 [03:26<03:49,  1.02it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  55%|█████▍    | 273/500 [03:31<03:55,  1.04s/it][32m [repeated 68x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  56%|█████▌    | 279/500 [03:37<04:30,  1.23s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  57%|█████▋    | 287/500 [03:42<02:54,  1.22it/s][32m [repeated 88x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  59%|█████▉    | 295/500 [03:47<03:11,  1.07it/s][32m [repeated 79x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 8:  60%|██████    | 302/500 [03:52<03:13,  1.03it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  62%|██████▏   | 309/500 [03:58<03:22,  1.06s/it][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  63%|██████▎   | 317/500 [04:03<02:22,  1.28it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  65%|██████▍   | 324/500 [04:08<02:41,  1.09it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  66%|██████▌   | 331/500 [04:13<02:39,  1.06it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  67%|██████▋   | 337/500 [04:19<02:50,  1.05s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  69%|██████▉   | 345/500 [04:24<02:05,  1.23it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  70%|███████   | 352/500 [04:29<02:28,  1.00s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  72%|███████▏  | 360/500 [04:34<01:58,  1.19it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  74%|███████▍  | 369/500 [04:39<01:27,  1.50it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  75%|███████▌  | 375/500 [04:44<02:08,  1.03s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  76%|███████▋  | 382/500 [04:50<01:54,  1.03it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 8:  78%|███████▊  | 390/500 [04:55<01:27,  1.25it/s][32m [repeated 92x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  80%|████████  | 401/500 [05:00<01:04,  1.54it/s][32m [repeated 112x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  81%|████████▏ | 407/500 [05:05<01:30,  1.03it/s][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  83%|████████▎ | 415/500 [05:10<01:09,  1.23it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  84%|████████▍ | 422/500 [05:16<01:13,  1.05it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  86%|████████▌ | 428/500 [05:21<01:17,  1.08s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  87%|████████▋ | 433/500 [05:26<01:25,  1.28s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 8:  88%|████████▊ | 439/500 [05:31<01:09,  1.15s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8:  89%|████████▉ | 446/500 [05:36<00:49,  1.09it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 8:  91%|█████████ | 453/500 [05:41<00:42,  1.11it/s][32m [repeated 81x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  91%|█████████▏| 457/500 [05:42<00:18,  2.30it/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Train Epoch 8:  91%|█████████ | 456/500 [05:42<00:19,  2.27it/s][32m [repeated 26x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  93%|█████████▎| 463/500 [05:47<00:22,  1.68it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 8:  94%|█████████▍| 471/500 [05:52<00:12,  2.37it/s][32m [repeated 87x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  96%|█████████▌| 478/500 [05:58<00:10,  2.00it/s][32m [repeated 69x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 8:  97%|█████████▋| 485/500 [06:04<00:10,  1.43it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 8:  98%|█████████▊| 491/500 [06:10<00:07,  1.16it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 8:  99%|█████████▉| 497/500 [06:15<00:02,  1.30it/s][32m [repeated 57x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 8: 100%|█████████▉| 499/500 [06:18<00:01,  1.16s/it]Train Epoch 8: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 8:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 8:  39%|███▉      | 33/84 [00:00<00:00, 324.39it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 8: 100%|██████████| 84/84 [00:00<00:00, 312.61it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:   0%|          | 0/500 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Test Epoch 8:  95%|█████████▌| 80/84 [00:00<00:00, 274.93it/s]Test Epoch 8: 100%|██████████| 84/84 [00:00<00:00, 265.45it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 8:  82%|████████▏ | 69/84 [00:00<00:00, 230.83it/s]Test Epoch 8: 100%|██████████| 84/84 [00:00<00:00, 234.24it/s]
+
+Training finished iteration 9 at 2025-06-09 00:59:05. Total running time: 37min 47s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      378.728 │
+│ time_total_s          2259.57 │
+│ training_iteration          9 │
+│ accuracy              0.82854 │
+│ loss                  0.44493 │
+╰───────────────────────────────╯
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   0%|          | 1/500 [00:01<12:53,  1.55s/it]
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 8: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s][32m [repeated 38x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 8: 100%|█████████▉| 499/500 [06:18<00:01,  1.08s/it]Train Epoch 8: 100%|██████████| 500/500 [06:18<00:00,  1.32it/s][32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Test Epoch 8:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Test Epoch 8:  75%|███████▌  | 63/84 [00:00<00:00, 157.08it/s][32m [repeated 24x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Test Epoch 8: 100%|██████████| 84/84 [00:00<00:00, 194.74it/s][32m [repeated 7x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Train Epoch 9:   0%|          | 0/500 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 8:  86%|████████▌ | 72/84 [00:00<00:00, 241.63it/s]Test Epoch 8: 100%|██████████| 84/84 [00:00<00:00, 244.63it/s][32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   1%|▏         | 7/500 [00:07<08:39,  1.05s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   3%|▎         | 13/500 [00:12<07:18,  1.11it/s][32m [repeated 56x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   4%|▍         | 20/500 [00:18<07:52,  1.02it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   5%|▌         | 26/500 [00:23<07:43,  1.02it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   7%|▋         | 33/500 [00:29<07:29,  1.04it/s][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   8%|▊         | 39/500 [00:34<08:07,  1.06s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:   9%|▉         | 45/500 [00:39<07:54,  1.04s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  10%|█         | 51/500 [00:45<07:32,  1.01s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  12%|█▏        | 59/500 [00:50<05:40,  1.29it/s][32m [repeated 78x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  13%|█▎        | 65/500 [00:56<10:19,  1.42s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 9:  15%|█▍        | 73/500 [01:01<05:57,  1.19it/s][32m [repeated 93x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 9:  16%|█▌        | 80/500 [01:06<07:08,  1.02s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  17%|█▋        | 87/500 [01:11<06:37,  1.04it/s][32m [repeated 73x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  19%|█▉        | 95/500 [01:17<06:01,  1.12it/s][32m [repeated 77x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  20%|██        | 102/500 [01:22<07:05,  1.07s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  22%|██▏       | 110/500 [01:27<05:36,  1.16it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  23%|██▎       | 115/500 [01:32<07:52,  1.23s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  25%|██▍       | 124/500 [01:38<04:16,  1.47it/s][32m [repeated 96x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  26%|██▌       | 131/500 [01:43<05:21,  1.15it/s][32m [repeated 80x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  27%|██▋       | 137/500 [01:48<07:08,  1.18s/it][32m [repeated 52x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Train Epoch 9:  29%|██▊       | 143/500 [01:53<06:49,  1.15s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 9:  30%|██▉       | 149/500 [01:58<06:45,  1.16s/it][32m [repeated 58x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  31%|███       | 156/500 [02:03<05:38,  1.02it/s][32m [repeated 67x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  33%|███▎      | 165/500 [02:08<04:17,  1.30it/s][32m [repeated 95x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  34%|███▍      | 172/500 [02:14<05:57,  1.09s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  36%|███▌      | 179/500 [02:19<05:35,  1.05s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  37%|███▋      | 185/500 [02:24<06:08,  1.17s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  38%|███▊      | 191/500 [02:29<05:52,  1.14s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  40%|███▉      | 199/500 [02:35<04:17,  1.17it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  42%|████▏     | 208/500 [02:40<03:41,  1.32it/s][32m [repeated 85x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  43%|████▎     | 214/500 [02:45<04:50,  1.02s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  44%|████▍     | 221/500 [02:50<04:25,  1.05it/s][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  45%|████▌     | 227/500 [02:55<05:05,  1.12s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  47%|████▋     | 234/500 [03:00<04:36,  1.04s/it][32m [repeated 64x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  48%|████▊     | 241/500 [03:05<04:12,  1.03it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  50%|████▉     | 248/500 [03:11<04:23,  1.05s/it][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 9:  52%|█████▏    | 258/500 [03:16<02:37,  1.54it/s][32m [repeated 105x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  53%|█████▎    | 265/500 [03:21<03:56,  1.01s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  54%|█████▍    | 270/500 [03:26<04:42,  1.23s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  55%|█████▌    | 276/500 [03:32<04:04,  1.09s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1864, ip=192.168.116.173)[0m Train Epoch 9:  56%|█████▌    | 281/500 [03:37<04:46,  1.31s/it][32m [repeated 51x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  58%|█████▊    | 289/500 [03:42<03:11,  1.10it/s][32m [repeated 74x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 9:  59%|█████▉    | 296/500 [03:47<03:12,  1.06it/s][32m [repeated 75x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  61%|██████    | 304/500 [03:53<02:58,  1.10it/s][32m [repeated 78x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 9:  62%|██████▏   | 310/500 [03:58<03:20,  1.06s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 9:  63%|██████▎   | 317/500 [04:02<02:50,  1.07it/s][32m [repeated 70x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 9:  65%|██████▍   | 323/500 [04:08<03:10,  1.07s/it][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  66%|██████▌   | 329/500 [04:13<03:16,  1.15s/it][32m [repeated 50x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 9:  67%|██████▋   | 334/500 [04:18<03:36,  1.30s/it][32m [repeated 55x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  68%|██████▊   | 340/500 [04:23<03:21,  1.26s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  69%|██████▉   | 346/500 [04:29<03:07,  1.22s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  71%|███████   | 355/500 [04:34<01:51,  1.30it/s][32m [repeated 89x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  72%|███████▏  | 361/500 [04:39<02:25,  1.05s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  73%|███████▎  | 367/500 [04:44<02:21,  1.06s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  75%|███████▍  | 374/500 [04:50<02:08,  1.02s/it][32m [repeated 65x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  76%|███████▌  | 379/500 [04:55<02:39,  1.32s/it][32m [repeated 48x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  77%|███████▋  | 386/500 [05:00<01:46,  1.08it/s][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 9:  78%|███████▊  | 391/500 [05:05<02:10,  1.20s/it][32m [repeated 59x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  80%|███████▉  | 398/500 [05:10<01:50,  1.09s/it][32m [repeated 61x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 9:  81%|████████  | 405/500 [05:15<01:28,  1.07it/s][32m [repeated 71x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  82%|████████▏ | 412/500 [05:21<01:30,  1.03s/it][32m [repeated 62x across cluster][0m
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Train Epoch 9:  83%|████████▎ | 417/500 [05:26<01:43,  1.24s/it][32m [repeated 56x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  85%|████████▍ | 424/500 [05:31<01:21,  1.07s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  86%|████████▋ | 432/500 [05:36<00:54,  1.25it/s][32m [repeated 72x across cluster][0m
+[36m(RayTrainWorker pid=1865, ip=192.168.116.173)[0m Train Epoch 9:  87%|████████▋ | 437/500 [05:41<01:12,  1.15s/it][32m [repeated 43x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9:  89%|████████▊ | 443/500 [05:47<01:04,  1.12s/it][32m [repeated 49x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  90%|████████▉ | 449/500 [05:52<00:56,  1.10s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  91%|█████████ | 455/500 [05:57<00:46,  1.03s/it][32m [repeated 60x across cluster][0m
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Train Epoch 9:  91%|█████████▏| 457/500 [05:57<00:25,  1.66it/s]
+[36m(RayTrainWorker pid=1866, ip=192.168.116.173)[0m Train Epoch 9:  91%|█████████ | 455/500 [05:57<00:48,  1.08s/it][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  93%|█████████▎| 464/500 [06:02<00:26,  1.35it/s][32m [repeated 84x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 9:  94%|█████████▍| 470/500 [06:07<00:32,  1.08s/it][32m [repeated 63x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  96%|█████████▌| 478/500 [06:13<00:19,  1.14it/s][32m [repeated 77x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 9:  97%|█████████▋| 484/500 [06:18<00:16,  1.05s/it][32m [repeated 53x across cluster][0m
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Train Epoch 9:  99%|█████████▊| 493/500 [06:23<00:05,  1.26it/s][32m [repeated 88x across cluster][0m
+[36m(RayTrainWorker pid=1854, ip=192.168.175.238)[0m Train Epoch 9: 100%|█████████▉| 499/500 [06:28<00:01,  1.08s/it][32m [repeated 66x across cluster][0m
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Train Epoch 9: 100%|██████████| 500/500 [06:28<00:00,  1.18it/s]Train Epoch 9: 100%|██████████| 500/500 [06:28<00:00,  1.29it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 9:   0%|          | 0/84 [00:00<?, ?it/s]
+[36m(RayTrainWorker pid=1943, ip=192.168.127.122)[0m Test Epoch 9:  24%|██▍       | 20/84 [00:00<00:00, 199.05it/s]
+[36m(RayTrainWorker pid=1856, ip=192.168.175.238)[0m Test Epoch 9:  69%|██████▉   | 58/84 [00:00<00:00, 282.75it/s]Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 291.96it/s]
+[36m(RayTrainWorker pid=1867, ip=192.168.116.173)[0m Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 295.54it/s]Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 276.77it/s]
+[36m(RayTrainWorker pid=1939, ip=192.168.127.122)[0m Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 285.26it/s]
+
+Training finished iteration 10 at 2025-06-09 01:05:34. Total running time: 44min 17s
+╭───────────────────────────────╮
+│ Training result               │
+├───────────────────────────────┤
+│ checkpoint_dir_name           │
+│ time_this_iter_s      389.025 │
+│ time_total_s           2648.6 │
+│ training_iteration         10 │
+│ accuracy              0.84412 │
+│ loss                  0.43093 │
+╰───────────────────────────────╯
+
+Training completed after 10 iterations at 2025-06-09 01:05:35. Total running time: 44min 18s
+2025-06-09 01:05:35,226	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to '/home/ray/ray_results/TorchTrainer_2025-06-09_00-21-16' in 0.0072s.
+
+Training result: Result(
+  metrics={'loss': 0.43093077922683387, 'accuracy': 0.8441247002398081},
+  path='/home/ray/ray_results/TorchTrainer_2025-06-09_00-21-16/TorchTrainer_552ae_00000_0_2025-06-09_00-21-17',
+  filesystem='local',
+  checkpoint=None
+)
+[36m(RayTrainWorker pid=1941, ip=192.168.127.122)[0m Train Epoch 9: 100%|█████████▉| 499/500 [06:28<00:01,  1.09s/it]
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Train Epoch 9: 100%|██████████| 500/500 [06:28<00:00,  1.19it/s]Train Epoch 9: 100%|██████████| 500/500 [06:28<00:00,  1.29it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 9:   0%|          | 0/84 [00:00<?, ?it/s][32m [repeated 11x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 9:  63%|██████▎   | 53/84 [00:00<00:00, 165.30it/s][32m [repeated 22x across cluster][0m
+[36m(RayTrainWorker pid=1855, ip=192.168.175.238)[0m Test Epoch 9:  83%|████████▎ | 70/84 [00:00<00:00, 328.04it/s]Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 332.29it/s][32m [repeated 2x across cluster][0m
+[36m(RayTrainWorker pid=1942, ip=192.168.127.122)[0m Test Epoch 9:  99%|█████████▉| 83/84 [00:00<00:00, 211.43it/s]Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 207.20it/s][32m [repeated 4x across cluster][0m
+[36m(RayTrainWorker pid=1940, ip=192.168.127.122)[0m Test Epoch 9: 100%|██████████| 84/84 [00:00<00:00, 215.70it/s][32m [repeated 3x across cluster][0m

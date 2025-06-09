@@ -16,7 +16,7 @@ spec:
       serviceAccountName: dscp-controller
       containers:
         - name: dscp-controller
-          image: localhost:5000/dscp-controller:latest
+          image: ghcr.io/owenowenisme/calico-dscp-controller/controller:main
           imagePullPolicy: Always
           resources:
             limits:

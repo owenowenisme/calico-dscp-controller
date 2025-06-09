@@ -5,6 +5,7 @@ apiVersion: ray.io/v1
 kind: RayCluster
 metadata:
   name: raycluster-kuberay
+  namespace: dscp-normal
 spec:
   rayVersion: '2.41.0' # should match the Ray version in the image of the containers
   # Ray head pod template
