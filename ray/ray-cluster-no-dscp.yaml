@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dscp-normal
+---
 # For examples with more realistic resource configuration, see
 # ray-cluster.complete.large.yaml and
 # ray-cluster.autoscaler.large.yaml.
