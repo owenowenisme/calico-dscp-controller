@@ -42,7 +42,7 @@ Through custom prioritization, we gain greater flexibility in deciding which app
 
 ## Results
 
-We evaluated the controller's performance using Ray, a popular distributed machine learning framework, to train an MNIST model.
+We evaluated the controller's performance using [Ray](https://github.com/ray-project/ray), a popular distributed machine learning framework, to train an MNIST model.
 
 Our test setup consisted of a Ray cluster deployed via [Kuberay](https://github.com/ray-project/kuberay), comprising one head node and three worker nodes, with each worker node allocated 5 CPUs. 
 
