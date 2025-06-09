@@ -1,4 +1,4 @@
-name: Build and upload docker image of controller to GHCR 
+name: Build and upload docker image of dscp-worker to GHCR 
 
 on:
   workflow_dispatch:
