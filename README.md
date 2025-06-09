@@ -40,14 +40,18 @@ Through custom prioritization, we gain greater flexibility in deciding which app
 
 ![SysSwitch Queue Mapping](https://github.com/user-attachments/assets/03b241eb-bf47-459f-9370-8fc2b3acf144)
 
-## Result 
+## Results
 
-We tested the controller with a popular distributed machine learning framework, Ray to train a MNIST model.
+We evaluated the controller's performance using Ray, a popular distributed machine learning framework, to train an MNIST model.
 
-To simulate the network congestion, we used iperf3 to generate traffic to the Ray cluster sending 1Gb of data per second from the client to the server in the cluster.
+Our test setup consisted of a Ray cluster deployed via [Kuberay](https://github.com/ray-project/kuberay), comprising one head node and three worker nodes, with each worker node allocated 5 CPUs. 
+
+To simulate network congestion conditions, we used iperf3 to generate sustained traffic of 1 Gbps from a client to the server. Additionally, we modified the [example script](https://github.com/owenowenisme/calico-dscp-controller/blob/main/ray/ray_train_pytorch_mnist.py) from Ray's documentation by increasing the number of workers, which intensified inter-node network communication during training.
 
 ![dscp_training_performance_comparison](https://github.com/user-attachments/assets/69113682-a906-4c4a-b35c-e57f7808bebb)
 
-With DSCP marking enabled, the training speed improved by approximately 9.1x compared to without DSCP marking, achieving performance nearly equivalent to an uncongested network environment.
+The complete results and analysis are available [here](https://github.com/owenowenisme/calico-dscp-controller/tree/main/ray/result).
 
-With our controller, we can prioritize the traffic of the application, and the application can achieve better performance.
+These results demonstrate that our DSCP controller can effectively mitigate the impact of network congestion on distributed machine learning workloads by intelligently prioritizing critical application traffic.
+
+
