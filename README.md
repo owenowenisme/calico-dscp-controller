@@ -1,6 +1,6 @@
 # Calico-DSCP-Controller
 A kubernetes controller that support traffic prioritization with DSCP marking.
-Support Calico or other iptables based CNI.
+Support [Calico](https://github.com/projectcalico/calico) or other iptables based CNI.
 
 ## Prerequisites
 
