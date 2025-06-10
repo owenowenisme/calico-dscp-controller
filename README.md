@@ -27,6 +27,24 @@ kubectl apply -f https://raw.githubusercontent.com/owenowenisme/calico-dscp-cont
 ```
 You can modified the dscp priority of namespace by changing the value in configmap.
 
+3. The system will create a DaemonSet named `k8s-dscp` and deploy pods named `k8s-dscp-xxxxx` to each node.
+
+```bash
+$ kubectl get ds -n kube-system
+NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+calico-node   4         4         4       4            4           kubernetes.io/os=linux   3d18h
+k8s-dscp      3         3         3       3            3           <none>                   12h
+kube-proxy    4         4         4       4            4           kubernetes.io/os=linux   3d18h
+```
+
+```bash
+$ kubectl get pods -l daemonset-owner=k8s-dscp -n kube-system -o wide
+NAME             READY   STATUS    RESTARTS   AGE   IP          NODE                   
+k8s-dscp-2p9dk   1/1     Running   0          12h   10.6.8.83   k8sworker2.example.net  
+k8s-dscp-nzwjv   1/1     Running   0          12h   10.6.8.84   k8sworker3.example.net   
+k8s-dscp-vcqvl   1/1     Running   0          12h   10.6.8.81   k8sworker1.example.net  
+```
+
 ## System Architecture
 This project implemented a Kubernetes controller that, when deployed, creates a DaemonSet within the cluster. This DaemonSet is responsible for ensuring that our DSCP pods are always running on all nodes, and automatically restores them when these pods disappear due to certain factors.
 
