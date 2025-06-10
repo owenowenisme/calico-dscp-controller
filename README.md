@@ -66,8 +66,8 @@ Our test setup consisted of a Ray cluster deployed via [Kuberay](https://github.
 
 To simulate network congestion conditions, we used iperf3 to generate sustained traffic of 1 Gbps from a client to the server. Additionally, we modified the [example script](https://github.com/owenowenisme/calico-dscp-controller/blob/main/ray/ray_train_pytorch_mnist.py) from Ray's documentation by increasing the number of workers, which intensified inter-node network communication during training.
 
+![image](https://github.com/user-attachments/assets/8b209acd-04ab-4891-baec-520ef2ac08ba)
 
-![image](https://github.com/user-attachments/assets/278fde55-a48f-4c7c-a84b-8f7937c54e1d)
 
 
 The complete results and analysis are available [here](https://github.com/owenowenisme/calico-dscp-controller/tree/main/ray/result).
